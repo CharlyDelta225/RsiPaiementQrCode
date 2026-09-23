@@ -1,0 +1,79 @@
+<div class="login-page auth-page">
+  <aside class="auth-panel" aria-hidden="true">
+    <div class="auth-panel__content">
+      <app-church-logo [size]="64" [color]="'#ffffff'" />
+      <h2 class="auth-panel__name">Mon Église</h2>
+      <p class="auth-panel__tagline">Ensemble pour l'œuvre de Dieu</p>
+      <p class="auth-panel__quote">« Que chacun donne comme il l'a décidé en son cœur. »</p>
+    </div>
+  </aside>
+
+  <div class="auth-card">
+    <header class="login-header">
+      <button
+        type="button"
+        class="login-back"
+        aria-label="Retour"
+        routerLink="/welcome"
+      >
+        <app-icon name="arrow-back" [size]="24" />
+      </button>
+    </header>
+
+    <main class="login-main">
+    <div class="login-brand">
+      <app-church-logo [size]="45" />
+      <h1 class="login-title">Mon Église</h1>
+      <p class="login-subtitle">Connectez-vous à votre compte</p>
+    </div>
+
+    <form class="login-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <app-auth-input
+        id="login-identifier"
+        [control]="form.controls.identifier"
+        label="Email ou téléphone"
+        type="text"
+        placeholder="exemple@domaine.com"
+        autocomplete="email"
+        inputmode="email"
+        requiredMessage="Veuillez renseigner votre email."
+      />
+
+      <app-password-input
+        id="login-password"
+        [control]="form.controls.password"
+        placeholder="Votre mot de passe"
+        autocomplete="current-password"
+      />
+
+      <div class="login-options">
+        <label class="login-remember">
+          <input type="checkbox" formControlName="remember" />
+          <span>Se souvenir de moi</span>
+        </label>
+        <a class="login-forgot" href="#" (click)="onForgotClick($event)">Mot de passe oublié ?</a>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="login-error" role="alert">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <app-primary-button
+        class="login-submit"
+        [type]="'submit'"
+        [loading]="loading()"
+        [disabled]="form.invalid"
+      >
+        Se connecter
+      </app-primary-button>
+    </form>
+
+    <p class="login-signup">
+      Vous n'avez pas de compte ?
+      <a routerLink="/register">Créer un compte</a>
+    </p>
+    </main>
+  </div>
+</div>

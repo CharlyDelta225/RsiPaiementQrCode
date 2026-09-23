@@ -1,0 +1,50 @@
+{
+  "name": "Mon Église",
+  "short_name": "Mon Église",
+  "description": "Ensemble pour l'œuvre de Dieu. Offrandes, dîmes et dons.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f9fc",
+  "theme_color": "#1677E8",
+  "lang": "fr",
+  "categories": ["finance", "lifestyle", "shopping"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Faire un don",
+      "short_name": "Don",
+      "description": "Faire une contribution rapide",
+      "url": "/member/contribution",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Mes contributions",
+      "short_name": "Historique",
+      "description": "Consulter mon historique de contributions",
+      "url": "/member/contributions",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

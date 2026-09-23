@@ -8,7 +8,12 @@
   "projects": {
     "frontend": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -21,6 +26,7 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
+            "serviceWorker": "ngsw-config.json",
             "assets": [
               {
                 "glob": "**/*",
@@ -28,7 +34,7 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ]
           },
           "configurations": {
@@ -85,7 +91,7 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ]
           }
         }

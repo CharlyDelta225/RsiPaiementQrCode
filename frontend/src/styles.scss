@@ -1,0 +1,276 @@
+/* ============================================================
+   MON ÉGLISE — Design System global
+   Palette et tokens dérivés du mockup de référence.
+   ============================================================ */
+
+:root {
+  /* Couleurs de marque */
+  --color-primary: #1677e8;
+  --color-primary-hover: #0e64c7;
+  --color-primary-soft: #eaf4ff;
+  --color-dark-blue: #123b73;
+
+  /* Algorithmes d'écran plein écran (welcome) */
+  --primary-blue: #1677e8;
+  --dark-blue: #123b73;
+  --white: #ffffff;
+  --text-white: rgba(255, 255, 255, 0.95);
+  --overlay-dark: rgba(0, 0, 0, 0.5);
+
+  /* Neutres / fonds */
+  --color-bg: #f6f9fc;
+  --color-white: #ffffff;
+
+  /* Sémantiques */
+  --color-success: #20b66a;
+  --color-success-soft: #e5f8ee;
+  --color-orange: #f5a623;
+  --color-orange-soft: #fef3e0;
+  --color-purple: #7b4ce2;
+  --color-purple-soft: #efeafc;
+  --color-red: #f04444;
+  --color-red-soft: #fdeaea;
+
+  /* Texte */
+  --color-text: #102a43;
+  --color-text-secondary: #627d98;
+  --color-border: #d9e5f2;
+
+  /* Ombres */
+  --shadow-card: 0 6px 24px rgba(16, 42, 67, 0.08);
+  --shadow-card-hover: 0 8px 28px rgba(16, 42, 67, 0.12);
+  --shadow-soft: 0 2px 10px rgba(18, 59, 115, 0.06);
+  --shadow-nav: 0 -4px 20px rgba(18, 59, 115, 0.08);
+
+  /* Rayons */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* Typographie */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+
+  /* Layout mobile */
+  --page-max-width: 430px;
+  --nav-height: 64px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ambiance desktop derrière le cadre mobile */
+@media (min-width: 768px) {
+  body {
+    background:
+      radial-gradient(circle at 20% 0%, rgba(22, 119, 232, 0.14), transparent 45%),
+      radial-gradient(circle at 80% 100%, rgba(18, 59, 115, 0.12), transparent 45%),
+      var(--color-bg);
+    background-attachment: fixed;
+  }
+
+  /* Tablet (>=768px) : l'app sort du cadre 430px et occupe tout l'écran */
+  .app-shell {
+    max-width: none;
+  }
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Focus visible accessible */
+:focus-visible {
+  outline: 3px solid rgba(22, 119, 232, 0.55);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Contexte d'app mobile, centré sur desktop */
+.app-shell {
+  max-width: var(--page-max-width);
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--color-bg);
+  position: relative;
+  box-shadow: 0 0 40px rgba(18, 59, 115, 0.08);
+}
+
+/* Contenu scrollable au-dessus de la bottom-nav pour les pages membres */
+.app-shell--with-nav {
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom));
+}
+
+/* Sur petits écrans (<1024px) on reste en cadre mobile plein largeur. */
+
+/* Desktop (>=1024px) : l'app s'élargit, la sidebar apparaît. */
+@media (min-width: 1024px) {
+  :root {
+    --page-max-width: 1200px;
+  }
+
+  .app-shell {
+    max-width: none;
+    border: 0;
+    box-shadow: none;
+  }
+}
+
+/* ---- Auth pages (login / register) : carte + panneau de marque ---- */
+.auth-panel {
+  display: none;
+}
+
+.auth-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+@media (min-width: 768px) {
+  .auth-page {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1160px;
+    min-height: 0;
+    background: var(--color-white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(18, 59, 115, 0.18);
+    margin: 2rem auto;
+    height: min(760px, calc(100dvh - 4rem));
+  }
+
+  .auth-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 38%;
+    flex-shrink: 0;
+    padding: 0.5rem 2rem 4.5rem;
+    background:
+      linear-gradient(180deg, rgba(18, 59, 115, 0.28), rgba(11, 36, 64, 0.75)),
+      url('/images/church-bg.png') center center / cover no-repeat;
+  }
+
+  .auth-panel__content {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .auth-panel__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+  }
+
+  .auth-panel__name {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .auth-panel__tagline {
+    font-size: var(--text-base);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .auth-panel__quote {
+    margin-top: 1.5rem;
+    font-size: var(--text-sm);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.85);
+    border-left: 3px solid rgba(255, 255, 255, 0.5);
+    padding-left: 1rem;
+  }
+
+  .auth-card {
+    padding: 0 3rem;
+  }
+}
+
+/* Utilitaires partagés */
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,168 @@
+<div class="register-page auth-page">
+  <aside class="auth-panel" aria-hidden="true">
+    <div class="auth-panel__content">
+      <div class="auth-panel__icon">
+        <app-icon name="temple" [size]="40" />
+      </div>
+      <h2 class="auth-panel__name">Mon Église</h2>
+      <p class="auth-panel__tagline">Ensemble pour l'œuvre de Dieu</p>
+      <p class="auth-panel__quote">« Que chacun donne comme il l'a décidé en son cœur. »</p>
+    </div>
+  </aside>
+
+  <div class="auth-card">
+    <header class="register-header">
+      <button
+        type="button"
+        class="register-back"
+        aria-label="Retour"
+        (click)="onBack()"
+      >
+        <app-icon name="arrow-back" [size]="24" />
+      </button>
+    </header>
+
+    <main class="register-main">
+    <div class="register-brand">
+      <div class="register-brand__icon" aria-hidden="true">
+        <app-icon name="temple" [size]="40" />
+      </div>
+      <p class="register-brand__title">Mon Église</p>
+      <h1 class="register-title">Créer un compte</h1>
+      <p class="register-subtitle">Rejoignez notre communauté</p>
+    </div>
+
+    <form class="register-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="register-field">
+        <label class="register-label" for="register-nom">Nom complet</label>
+        <input
+          class="register-input"
+          id="register-nom"
+          type="text"
+          formControlName="nomComplet"
+          placeholder="Jean Dupont"
+          autocomplete="name"
+        />
+        @if (getFieldError('nomComplet')) {
+          <p class="register-error" role="alert">{{ getFieldError('nomComplet') }}</p>
+        }
+      </div>
+
+      <div class="register-field">
+        <label class="register-label" for="register-tel">Téléphone</label>
+        <div class="register-phone">
+          <button
+            type="button"
+            class="register-phone__select"
+            aria-label="Sélectionner l'indicatif pays"
+          >
+            <span class="register-phone__flag" aria-hidden="true">🇨🇮</span>
+            <span class="register-phone__code">+225</span>
+            <app-icon name="chevron-down" [size]="16" aria-hidden="true" />
+          </button>
+          <span class="register-phone__divider" aria-hidden="true"></span>
+          <input
+            class="register-phone__input"
+            id="register-tel"
+            type="tel"
+            formControlName="telephone"
+            placeholder="07 00 00 00 00"
+            autocomplete="tel"
+            inputmode="tel"
+          />
+        </div>
+        @if (getFieldError('telephone')) {
+          <p class="register-error" role="alert">{{ getFieldError('telephone') }}</p>
+        }
+      </div>
+
+      <div class="register-field">
+        <label class="register-label" for="register-email">Email</label>
+        <input
+          class="register-input"
+          id="register-email"
+          type="email"
+          formControlName="email"
+          placeholder="exemple@domaine.com"
+          autocomplete="email"
+          inputmode="email"
+        />
+        @if (getFieldError('email')) {
+          <p class="register-error" role="alert">{{ getFieldError('email') }}</p>
+        }
+      </div>
+
+      <div class="register-field">
+        <label class="register-label" for="register-pass">Mot de passe</label>
+        <div class="register-input register-input--password">
+          <input
+            class="register-input__inner"
+            id="register-pass"
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="motDePasse"
+            placeholder="••••••••"
+            autocomplete="new-password"
+          />
+          <button
+            type="button"
+            class="register-password-toggle"
+            (click)="togglePassword()"
+            [attr.aria-label]="showPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+          >
+            <app-icon [name]="showPassword() ? 'eye-off' : 'eye'" [size]="20" />
+          </button>
+        </div>
+        @if (getFieldError('motDePasse')) {
+          <p class="register-error" role="alert">{{ getFieldError('motDePasse') }}</p>
+        }
+      </div>
+
+      <label class="register-terms">
+        <input type="checkbox" formControlName="acceptConditions" />
+        <span class="register-terms__text">
+          J'accepte les
+          <a
+            href="#"
+            (click)="$event.preventDefault()"
+            aria-label="Conditions d'utilisation"
+          >conditions d'utilisation</a
+          >
+          et la
+          <a
+            href="#"
+            (click)="$event.preventDefault()"
+            aria-label="Politique de confidentialité"
+          >politique de confidentialité</a
+          >.
+        </span>
+      </label>
+      @if (getFieldError('acceptConditions')) {
+        <p class="register-error" role="alert">{{ getFieldError('acceptConditions') }}</p>
+      }
+
+      @if (errorMessage()) {
+        <div class="register-alert" role="alert">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <button
+        type="submit"
+        class="register-submit"
+        [disabled]="form.invalid || loading()"
+      >
+        @if (loading()) {
+          <span class="register-submit__spinner" aria-hidden="true"></span>
+        } @else {
+          <span>S'inscrire</span>
+        }
+      </button>
+    </form>
+
+    <p class="register-switch">
+      Déjà un compte ?
+      <a routerLink="/login">Se connecter</a>
+    </p>
+    </main>
+  </div>
+</div>

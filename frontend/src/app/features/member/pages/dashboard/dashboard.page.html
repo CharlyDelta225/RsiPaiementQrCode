@@ -1,0 +1,67 @@
+<div class="dashboard">
+  <div class="dashboard__shell">
+    <header class="dashboard__header">
+      <div class="dashboard__header-inner">
+        <div class="dashboard__greeting">
+          <p class="dashboard__hello">Bonjour, {{ getFirstName() }} 👋</p>
+          <p class="dashboard__subtext">Que Dieu bénisse votre générosité !</p>
+        </div>
+        <app-notification-button />
+      </div>
+    </header>
+
+    <main class="dashboard__body">
+      <section class="dashboard__balance" aria-label="Solde de mon compte">
+        <app-balance-card [amount]="balance().amount" />
+      </section>
+
+      <section class="dashboard__actions" aria-label="Actions rapides">
+        <div class="dashboard__quick-actions">
+          <app-quick-action
+            icon="check"
+            label="Faire une contribution"
+            route="/member/contribution"
+            tone="primary"
+          />
+          <app-quick-action
+            icon="receipt"
+            label="Mon historique"
+            route="/member/contributions"
+            tone="success"
+          />
+          <app-quick-action
+            icon="person"
+            label="Mon profil"
+            route="/member/profile"
+            tone="info"
+          />
+        </div>
+      </section>
+
+      <section class="dashboard__verse" aria-label="Verset du jour">
+        <app-bible-verse-card />
+      </section>
+
+      <section class="dashboard__recent" aria-label="Contributions récentes">
+        <div class="dashboard__section-head">
+          <h2 class="dashboard__section-title">Mes contributions récentes</h2>
+          <a class="dashboard__see-all" routerLink="/member/contributions">
+            Voir tout
+          </a>
+        </div>
+
+        <div class="dashboard__list">
+          @if (loading()) {
+            <p class="dashboard__empty">Chargement…</p>
+          } @else if (contributions().length === 0) {
+            <p class="dashboard__empty">Aucune contribution pour le moment.</p>
+          } @else {
+            @for (item of contributions(); track item.id) {
+              <app-contribution-item [contribution]="item" />
+            }
+          }
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

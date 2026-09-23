@@ -1,0 +1,30 @@
+<div class="welcome-page">
+  <div class="welcome-background" aria-hidden="true"></div>
+
+  <main class="welcome-container">
+    <header class="welcome-top">
+      <app-church-logo [size]="48" [color]="'#ffffff'" />
+      <h1 class="welcome-name">Mon Église</h1>
+      <p class="welcome-tagline">Ensemble pour l'œuvre de Dieu</p>
+    </header>
+
+    <div class="welcome-spacer"></div>
+
+    <section class="welcome-bottom">
+      <h2 class="welcome-headline">
+        Soutenez<br />
+        la mission de l'Église
+      </h2>
+      <p class="welcome-support">
+        Vos offrandes, dîmes et dons font une réelle différence.
+      </p>
+
+      <a class="welcome-cta" routerLink="/register" aria-label="Commencer">
+        Commencer
+      </a>
+      <a class="welcome-login" routerLink="/login" aria-label="Se connecter">
+        Se connecter
+      </a>
+    </section>
+  </main>
+</div>

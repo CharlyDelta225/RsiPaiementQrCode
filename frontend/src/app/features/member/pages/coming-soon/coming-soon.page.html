@@ -1,0 +1,22 @@
+<div class="coming-soon">
+  <header class="coming-soon__topbar">
+    <button
+      type="button"
+      class="coming-soon__back"
+      aria-label="Retour au tableau de bord"
+      routerLink="/member/dashboard"
+    >
+      <app-icon name="arrow-back" [size]="22" />
+    </button>
+    <h1 class="coming-soon__title">{{ headline() }}</h1>
+    <span class="coming-soon__spacer"></span>
+  </header>
+
+  <main class="coming-soon__body">
+    <app-icon name="sparkle" [size]="48" />
+    <h2 class="coming-soon__headline">Coming soon</h2>
+    <p class="coming-soon__message">
+      Cette fonctionnalité sera disponible dans une prochaine mise à jour.
+    </p>
+  </main>
+</div>
