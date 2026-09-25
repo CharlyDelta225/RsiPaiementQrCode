@@ -3,7 +3,7 @@
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    background: #fff;
+    background: var(--color-papier);
     width: 100%;
     max-width: 430px;
     margin: 0 auto;
@@ -25,7 +25,7 @@
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: #1e3a5f;
+  color: var(--color-bordeaux-deep);
 }
 
 .register-main {
@@ -51,27 +51,27 @@
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: #eef4ff;
-  color: #1e3a5f;
+  background: var(--color-creme);
+  color: var(--color-bordeaux-deep);
 }
 
 .register-brand__title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1e3a5f;
+  color: var(--color-bordeaux-deep);
   text-align: center;
 }
 
 .register-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--color-encre);
   text-align: center;
 }
 
 .register-subtitle {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-encre-doux);
   text-align: center;
 }
 
@@ -90,17 +90,18 @@
 .register-label {
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--color-encre-doux);
 }
 
 .register-input,
-.register-phone {
+.register-phone,
+.register-select {
   height: 50px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-bordure);
   border-radius: 10px;
-  background: #f9fafb;
+  background: var(--color-creme-fonce);
   font-size: 1rem;
-  color: #111827;
+  color: var(--color-encre);
   display: flex;
   align-items: center;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
@@ -110,11 +111,17 @@
   padding: 0 1rem;
 }
 
+.register-select {
+  display: block;
+  padding: 0 1rem;
+}
+
 .register-input:focus-within,
-.register-phone:focus-within {
-  border-color: #2563eb;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+.register-phone:focus-within,
+.register-select:focus {
+  border-color: var(--color-bordeaux);
+  background: var(--color-papier);
+  box-shadow: 0 0 0 3px var(--color-bordeaux-15);
   outline: none;
 }
 
@@ -126,7 +133,7 @@
   border: 0;
   background: transparent;
   font-size: 1rem;
-  color: #111827;
+  color: var(--color-encre);
   outline: none;
 }
 
@@ -136,7 +143,8 @@
 
 .register-input__inner::placeholder,
 .register-phone__input::placeholder {
-  color: #9ca3af;
+  color: var(--color-encre-doux);
+  opacity: 0.7;
 }
 
 .register-phone__select {
@@ -147,7 +155,7 @@
   padding: 0 0.75rem;
   border: 0;
   background: transparent;
-  color: #111827;
+  color: var(--color-encre);
   font-size: 0.875rem;
 }
 
@@ -158,7 +166,7 @@
 .register-phone__divider {
   width: 1px;
   height: 24px;
-  background: #d1d5db;
+  background: var(--color-bordure);
   flex-shrink: 0;
 }
 
@@ -168,21 +176,21 @@
   justify-content: center;
   border: 0;
   background: transparent;
-  color: #6b7280;
+  color: var(--color-encre-doux);
   padding: 0.25rem;
 }
 
 .register-error {
   font-size: 0.75rem;
-  color: #f04444;
+  color: var(--color-danger);
 }
 
 .register-alert {
   display: flex;
   align-items: center;
-  background: #fdeaea;
-  color: #f04444;
-  border: 1px solid rgba(240, 68, 68, 0.3);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger-border);
   padding: 0.75rem 1rem;
   border-radius: 10px;
   font-size: 0.875rem;
@@ -199,17 +207,17 @@
   width: 1.125rem;
   height: 1.125rem;
   flex-shrink: 0;
-  accent-color: #2563eb;
+  accent-color: var(--color-bordeaux);
 }
 
 .register-terms__text {
   font-size: 0.8125rem;
-  color: #6b7280;
+  color: var(--color-encre-doux);
   line-height: 1.45;
 }
 
 .register-terms__text a {
-  color: #2563eb;
+  color: var(--color-bordeaux);
   font-weight: 500;
   text-decoration: none;
 }
@@ -223,20 +231,20 @@
   height: 50px;
   border: 0;
   border-radius: 12px;
-  background: #2563eb;
-  color: #fff;
+  background: var(--color-bordeaux);
+  color: var(--color-papier);
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px var(--color-bordeaux-30);
 }
 
 .register-submit:hover:not(:disabled) {
-  background: #1e40af;
+  background: var(--color-bordeaux-light);
 }
 
 .register-submit:active:not(:disabled) {
-  background: #1d4ed8;
+  background: var(--color-bordeaux-deep);
 }
 
 .register-submit:disabled {
@@ -247,8 +255,8 @@
 .register-submit__spinner {
   width: 1.1rem;
   height: 1.1rem;
-  border: 2.5px solid rgba(255, 255, 255, 0.4);
-  border-top-color: #fff;
+  border: 2.5px solid var(--color-blanc-40);
+  border-top-color: var(--color-papier);
   border-radius: 50%;
   animation: register-spin 0.7s linear infinite;
 }
@@ -261,12 +269,12 @@
 
 .register-switch {
   text-align: center;
-  color: #6b7280;
+  color: var(--color-encre-doux);
   font-size: 0.9375rem;
 }
 
 .register-switch a {
-  color: #2563eb;
+  color: var(--color-bordeaux);
   font-weight: 600;
   text-decoration: none;
 }

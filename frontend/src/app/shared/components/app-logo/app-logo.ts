@@ -13,7 +13,7 @@ import { Component, Input } from '@angular/core';
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        <circle cx="16" cy="16" r="16" fill="#1677E8" />
+        <circle cx="16" cy="16" r="16" fill="currentColor" />
         <path
           d="M16 6L10 9V13L16 16L22 13V9L16 6Z"
           fill="white"
@@ -35,6 +35,7 @@ import { Component, Input } from '@angular/core';
         display: inline-flex;
         align-items: center;
         gap: 0.625rem;
+        color: var(--color-bordeaux);
       }
       .logo__text {
         display: flex;
@@ -44,17 +45,20 @@ import { Component, Input } from '@angular/core';
       .logo__name {
         font-size: 1.125rem;
         font-weight: 800;
-        color: var(--color-text, #102a43);
+        color: var(--color-encre);
       }
       .logo__tagline {
         font-size: 0.6875rem;
-        color: var(--color-text-secondary, #627d98);
+        color: var(--color-text-secondary);
+      }
+      .logo--light {
+        color: var(--color-papier);
       }
       .logo--light .logo__name {
-        color: #ffffff;
+        color: var(--color-papier);
       }
       .logo--light .logo__tagline {
-        color: rgba(255, 255, 255, 0.75);
+        color: var(--color-blanc-75);
       }
     `,
   ],

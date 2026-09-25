@@ -19,8 +19,8 @@ import { AppIconComponent } from '../app-icon/app-icon';
       height: 40px;
       border-radius: 50%;
       border: 0;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
+      background: var(--color-blanc-18);
+      color: var(--color-papier);
       transition: background 0.2s;
       position: relative;
     }
@@ -32,11 +32,11 @@ import { AppIconComponent } from '../app-icon/app-icon';
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--color-orange);
-      border: 2px solid #fff;
+      background: var(--color-alerte);
+      border: 2px solid var(--color-papier);
     }
     .notif:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--color-blanc-30);
     }
   `,
 })

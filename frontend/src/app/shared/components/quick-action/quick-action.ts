@@ -41,9 +41,9 @@ export type QuickActionTone = 'primary' | 'success' | 'info';
       box-shadow: var(--shadow-soft);
     }
     .action__icon--primary {
-      background: var(--color-primary);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(22, 119, 232, 0.3);
+      background: var(--color-bordeaux);
+      color: var(--color-papier);
+      box-shadow: 0 4px 12px var(--color-bordeaux-30);
     }
     .action__icon--success {
       background: var(--color-success-soft);

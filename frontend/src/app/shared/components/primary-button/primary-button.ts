@@ -47,37 +47,53 @@ export type ButtonVariant = 'primary' | 'light' | 'outline';
     }
 
     .btn--primary {
-      background: var(--color-primary);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(22, 119, 232, 0.25);
+      background: linear-gradient(
+        180deg,
+        var(--color-bordeaux-light) 0%,
+        var(--color-bordeaux-deep) 100%
+      );
+      color: var(--color-papier);
+      box-shadow: 0 4px 12px var(--color-bordeaux-deep-25);
     }
     .btn--primary:hover:not(:disabled) {
-      background: var(--color-primary-hover);
+      background: linear-gradient(
+        180deg,
+        var(--color-bordeaux) 0%,
+        var(--color-bordeaux-deep) 100%
+      );
     }
 
     .btn--light {
-      background: #fff;
-      color: var(--color-primary);
+      background: var(--color-papier);
+      color: var(--color-bordeaux-deep);
+      box-shadow: 0 2px 8px var(--color-bordeaux-deep-12);
     }
     .btn--light:hover:not(:disabled) {
-      background: var(--color-primary-soft);
+      background: var(--color-creme);
     }
 
     .btn--outline {
       background: transparent;
-      color: var(--color-primary);
-      border-color: var(--color-border);
+      color: var(--color-bordeaux);
+      border-color: var(--color-or);
     }
     .btn--outline:hover:not(:disabled) {
-      border-color: var(--color-primary);
-      background: var(--color-primary-soft);
+      border-color: var(--color-bordeaux);
+      background: var(--color-creme);
+    }
+
+    .btn--primary:focus-visible,
+    .btn--light:focus-visible,
+    .btn--outline:focus-visible {
+      outline: 3px solid var(--color-or-60);
+      outline-offset: 2px;
     }
 
     .btn__spinner {
       width: 1.1rem;
       height: 1.1rem;
-      border: 2.5px solid rgba(255, 255, 255, 0.4);
-      border-top-color: #fff;
+      border: 2.5px solid var(--color-blanc-40);
+      border-top-color: var(--color-papier);
       border-radius: 50%;
       animation: btn-spin 0.7s linear infinite;
     }

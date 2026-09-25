@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+$bordeaux-deep: #3D0000;
+$bordeaux: #5A0A0A;
+$bordeaux-light: #8B1A1A;
+$brique: #C0392B;
+$or: #D4A017;
+$or-clair: #F0C040;
+$creme: #FBF6EC;
+$papier: #FFFDF9;
+$encre: #2B1A12;
+$vert-succes: #1E7A4C;
+
+$danger: #D81B3C;
+$alerte: #F5A623;
+$encre-doux: #6E574A;
+$creme-fonce: #F3EADA;
+$bordure: #E3D6C2;
+$vert-succes-soft: #E3F1E9;
+$brique-soft: #F8E7E2;
+$or-soft: #FBF0D4;
+$danger-soft: #FCE8EC;
+
+:root {
+  --color-bordeaux-deep: #{$bordeaux-deep};
+  --color-bordeaux: #{$bordeaux};
+  --color-bordeaux-light: #{$bordeaux-light};
+  --color-brique: #{$brique};
+  --color-or: #{$or};
+  --color-or-clair: #{$or-clair};
+  --color-creme: #{$creme};
+  --color-papier: #{$papier};
+  --color-encre: #{$encre};
+  --color-vert-succes: #{$vert-succes};
+
+  --color-danger: #{$danger};
+  --color-danger-soft: #{$danger-soft};
+  --color-danger-border: #{rgba($danger, 0.35)};
+  --color-alerte: #{$alerte};
+  --color-alerte-soft: #{rgba($alerte, 0.14)};
+  --color-brique-soft: #{$brique-soft};
+  --color-or-soft: #{$or-soft};
+  --color-vert-succes-soft: #{$vert-succes-soft};
+
+  --color-encre-doux: #{$encre-doux};
+  --color-creme-fonce: #{$creme-fonce};
+  --color-bordure: #{$bordure};
+
+  --color-bordeaux-deep-05: #{rgba($bordeaux-deep, 0.05)};
+  --color-bordeaux-deep-08: #{rgba($bordeaux-deep, 0.08)};
+  --color-bordeaux-deep-12: #{rgba($bordeaux-deep, 0.12)};
+  --color-bordeaux-deep-15: #{rgba($bordeaux-deep, 0.15)};
+  --color-bordeaux-deep-25: #{rgba($bordeaux-deep, 0.25)};
+  --color-bordeaux-deep-75: #{rgba($bordeaux-deep, 0.75)};
+  --color-bordeaux-deep-85: #{rgba($bordeaux-deep, 0.85)};
+  --color-bordeaux-deep-88: #{rgba($bordeaux-deep, 0.88)};
+  --color-bordeaux-12: #{rgba($bordeaux, 0.12)};
+  --color-bordeaux-15: #{rgba($bordeaux, 0.15)};
+  --color-bordeaux-30: #{rgba($bordeaux, 0.3)};
+  --color-or-14: #{rgba($or, 0.14)};
+  --color-or-20: #{rgba($or, 0.2)};
+  --color-or-30: #{rgba($or, 0.3)};
+  --color-or-35: #{rgba($or, 0.35)};
+  --color-or-40: #{rgba($or, 0.4)};
+  --color-or-45: #{rgba($or, 0.45)};
+  --color-or-50: #{rgba($or, 0.5)};
+  --color-or-60: #{rgba($or, 0.6)};
+  --color-or-65: #{rgba($or, 0.65)};
+  --color-or-70: #{rgba($or, 0.7)};
+  --color-blanc-12: #{rgba($papier, 0.12)};
+  --color-blanc-18: #{rgba($papier, 0.18)};
+  --color-blanc-30: #{rgba($papier, 0.3)};
+  --color-blanc-40: #{rgba($papier, 0.4)};
+  --color-blanc-50: #{rgba($papier, 0.5)};
+  --color-blanc-75: #{rgba($papier, 0.75)};
+  --color-blanc-85: #{rgba($papier, 0.85)};
+  --color-blanc-95: #{rgba($papier, 0.95)};
+
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+}

@@ -51,8 +51,8 @@ import { AppIconComponent } from '../app-icon/app-icon';
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       background: var(--color-white);
-      border-top: 1px solid #e5edf5;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      border-top: 1px solid var(--color-bordure);
+      box-shadow: var(--shadow-nav);
       padding: 0.5rem 0.5rem calc(0.5rem + env(safe-area-inset-bottom));
       z-index: 20;
     }

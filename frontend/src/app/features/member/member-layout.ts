@@ -90,7 +90,7 @@ import { AuthService } from '../../core/services/auth.service';
         width: 248px;
         flex-shrink: 0;
         background: var(--color-white);
-        border-right: 1px solid #e5edf5;
+        border-right: 1px solid var(--color-bordure);
         padding: 1.5rem 1rem;
       }
       .member-sidebar__head {
@@ -102,7 +102,7 @@ import { AuthService } from '../../core/services/auth.service';
       .member-sidebar__name {
         font-size: 1.0625rem;
         font-weight: 800;
-        color: var(--color-dark-blue);
+        color: var(--color-bordeaux-deep);
       }
       .member-sidebar__nav {
         display: flex;

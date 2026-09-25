@@ -1,3 +1,5 @@
+@use 'styles/theme' as t;
+
 /* ============================================================
    MON ÉGLISE — Design System global
    Palette et tokens dérivés du mockup de référence.
@@ -5,42 +7,42 @@
 
 :root {
   /* Couleurs de marque */
-  --color-primary: #1677e8;
-  --color-primary-hover: #0e64c7;
-  --color-primary-soft: #eaf4ff;
-  --color-dark-blue: #123b73;
+  --color-primary: #{t.$bordeaux};
+  --color-primary-hover: #{t.$bordeaux-deep};
+  --color-primary-soft: #{t.$creme};
+  --color-dark-blue: #{t.$encre};
 
   /* Algorithmes d'écran plein écran (welcome) */
-  --primary-blue: #1677e8;
-  --dark-blue: #123b73;
-  --white: #ffffff;
-  --text-white: rgba(255, 255, 255, 0.95);
-  --overlay-dark: rgba(0, 0, 0, 0.5);
+  --primary-blue: #{t.$bordeaux-deep};
+  --dark-blue: #{t.$bordeaux-deep};
+  --white: #{t.$papier};
+  --text-white: #{rgba(t.$papier, 0.95)};
+  --overlay-dark: #{rgba(t.$bordeaux-deep, 0.6)};
 
   /* Neutres / fonds */
-  --color-bg: #f6f9fc;
-  --color-white: #ffffff;
+  --color-bg: #{t.$creme};
+  --color-white: #{t.$papier};
 
   /* Sémantiques */
-  --color-success: #20b66a;
-  --color-success-soft: #e5f8ee;
-  --color-orange: #f5a623;
-  --color-orange-soft: #fef3e0;
-  --color-purple: #7b4ce2;
-  --color-purple-soft: #efeafc;
-  --color-red: #f04444;
-  --color-red-soft: #fdeaea;
+  --color-success: #{t.$vert-succes};
+  --color-success-soft: #{t.$vert-succes-soft};
+  --color-orange: #{t.$alerte};
+  --color-orange-soft: #{rgba(t.$alerte, 0.14)};
+  --color-purple: #{t.$brique};
+  --color-purple-soft: #{t.$brique-soft};
+  --color-red: #{t.$danger};
+  --color-red-soft: #{t.$danger-soft};
 
   /* Texte */
-  --color-text: #102a43;
-  --color-text-secondary: #627d98;
-  --color-border: #d9e5f2;
+  --color-text: #{t.$encre};
+  --color-text-secondary: #{t.$encre-doux};
+  --color-border: #{t.$bordure};
 
   /* Ombres */
-  --shadow-card: 0 6px 24px rgba(16, 42, 67, 0.08);
-  --shadow-card-hover: 0 8px 28px rgba(16, 42, 67, 0.12);
-  --shadow-soft: 0 2px 10px rgba(18, 59, 115, 0.06);
-  --shadow-nav: 0 -4px 20px rgba(18, 59, 115, 0.08);
+  --shadow-card: 0 6px 24px #{rgba(t.$bordeaux-deep, 0.08)};
+  --shadow-card-hover: 0 8px 28px #{rgba(t.$bordeaux-deep, 0.12)};
+  --shadow-soft: 0 2px 10px #{rgba(t.$bordeaux-deep, 0.06)};
+  --shadow-nav: 0 -4px 20px #{rgba(t.$bordeaux-deep, 0.08)};
 
   /* Rayons */
   --radius-xs: 8px;
@@ -49,9 +51,7 @@
   --radius-lg: 24px;
   --radius-pill: 999px;
 
-  /* Typographie */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif;
+  /* Typographie (--font-sans est défini dans styles/theme.scss) */
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -93,8 +93,8 @@ body {
 @media (min-width: 768px) {
   body {
     background:
-      radial-gradient(circle at 20% 0%, rgba(22, 119, 232, 0.14), transparent 45%),
-      radial-gradient(circle at 80% 100%, rgba(18, 59, 115, 0.12), transparent 45%),
+      radial-gradient(circle at 20% 0%, #{rgba(t.$or, 0.14)}, transparent 45%),
+      radial-gradient(circle at 80% 100%, #{rgba(t.$bordeaux-deep, 0.12)}, transparent 45%),
       var(--color-bg);
     background-attachment: fixed;
   }
@@ -141,7 +141,7 @@ img {
 
 /* Focus visible accessible */
 :focus-visible {
-  outline: 3px solid rgba(22, 119, 232, 0.55);
+  outline: 3px solid #{rgba(t.$or, 0.65)};
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -153,7 +153,7 @@ img {
   margin: 0 auto;
   background: var(--color-bg);
   position: relative;
-  box-shadow: 0 0 40px rgba(18, 59, 115, 0.08);
+  box-shadow: 0 0 40px #{rgba(t.$bordeaux-deep, 0.08)};
 }
 
 /* Contenu scrollable au-dessus de la bottom-nav pour les pages membres */
@@ -198,7 +198,7 @@ img {
     background: var(--color-white);
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 30px 80px rgba(18, 59, 115, 0.18);
+    box-shadow: 0 30px 80px #{rgba(t.$bordeaux-deep, 0.18)};
     margin: 2rem auto;
     height: min(760px, calc(100dvh - 4rem));
   }
@@ -211,12 +211,16 @@ img {
     flex-shrink: 0;
     padding: 0.5rem 2rem 4.5rem;
     background:
-      linear-gradient(180deg, rgba(18, 59, 115, 0.28), rgba(11, 36, 64, 0.75)),
+      linear-gradient(
+        180deg,
+        #{rgba(t.$bordeaux, 0.3)} 0%,
+        #{rgba(t.$bordeaux-deep, 0.85)} 100%
+      ),
       url('/images/church-bg.png') center center / cover no-repeat;
   }
 
   .auth-panel__content {
-    color: #fff;
+    color: var(--color-papier);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -229,27 +233,27 @@ img {
     width: 68px;
     height: 68px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: #{rgba(t.$or, 0.2)};
+    border: 1px solid #{rgba(t.$or-clair, 0.5)};
   }
 
   .auth-panel__name {
     font-size: 2rem;
     font-weight: 800;
-    color: #fff;
+    color: var(--color-papier);
   }
 
   .auth-panel__tagline {
     font-size: var(--text-base);
-    color: rgba(255, 255, 255, 0.9);
+    color: #{rgba(t.$papier, 0.9)};
   }
 
   .auth-panel__quote {
     margin-top: 1.5rem;
     font-size: var(--text-sm);
     font-style: italic;
-    color: rgba(255, 255, 255, 0.85);
-    border-left: 3px solid rgba(255, 255, 255, 0.5);
+    color: #{rgba(t.$papier, 0.85)};
+    border-left: 3px solid #{rgba(t.$or-clair, 0.7)};
     padding-left: 1rem;
   }
 

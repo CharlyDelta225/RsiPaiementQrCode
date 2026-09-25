@@ -22,9 +22,14 @@ import { formatFcfa } from '../../../core/utils/format';
   `,
   styles: `
     .balance {
-      background: var(--color-white);
+      background: linear-gradient(
+        160deg,
+        var(--color-papier) 0%,
+        var(--color-creme) 100%
+      );
+      border: 1px solid var(--color-or-30);
       border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 20px var(--color-bordeaux-deep-08);
       padding: 1.25rem 1.375rem;
       display: flex;
       flex-direction: column;
@@ -34,17 +39,17 @@ import { formatFcfa } from '../../../core/utils/format';
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: var(--color-primary);
+      color: var(--color-bordeaux);
     }
     .balance__label {
       font-size: var(--text-sm);
       font-weight: 600;
-      color: var(--color-text-secondary);
+      color: var(--color-bordeaux-light);
     }
     .balance__amount {
-      font-size: 1.375rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--color-dark-blue);
+      color: var(--color-bordeaux-deep);
       margin: 0;
     }
     .balance__link {
@@ -54,8 +59,11 @@ import { formatFcfa } from '../../../core/utils/format';
       gap: 0.25rem;
       font-size: var(--text-sm);
       font-weight: 600;
-      color: var(--color-primary);
+      color: var(--color-bordeaux);
       text-decoration: none;
+    }
+    .balance__link app-icon {
+      color: var(--color-or);
     }
   `,
 })

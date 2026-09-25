@@ -30,7 +30,7 @@ import { formatFcfa } from '../../../core/utils/format';
       align-items: center;
       gap: 0.75rem;
       background: var(--color-white);
-      border: 1px solid #e5edf5;
+      border: 1px solid var(--color-bordure);
       border-radius: 14px;
       padding: 0.875rem 1rem;
     }
@@ -44,8 +44,9 @@ import { formatFcfa } from '../../../core/utils/format';
       flex-shrink: 0;
     }
     .item__icon--PAID { background: var(--color-success-soft); color: var(--color-success); }
-    .item__icon--PENDING { background: var(--color-orange-soft); color: var(--color-orange); }
+    .item__icon--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte); }
     .item__icon--FAILED { background: var(--color-red-soft); color: var(--color-red); }
+    .item__icon--CANCELLED { background: var(--color-primary-soft); color: var(--color-text-secondary); }
     .item__body {
       flex: 1;
       min-width: 0;
@@ -76,8 +77,9 @@ import { formatFcfa } from '../../../core/utils/format';
       white-space: nowrap;
     }
     .item__badge--PAID { background: var(--color-success-soft); color: var(--color-success); }
-    .item__badge--PENDING { background: var(--color-orange-soft); color: var(--color-orange); }
+    .item__badge--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte); }
     .item__badge--FAILED { background: var(--color-red-soft); color: var(--color-red); }
+    .item__badge--CANCELLED { background: var(--color-primary-soft); color: var(--color-text-secondary); }
   `,
 })
 export class ContributionItemComponent {
@@ -107,6 +109,8 @@ export class ContributionItemComponent {
         return 'Payé';
       case 'PENDING':
         return 'En attente';
+      case 'CANCELLED':
+        return 'Annulé';
       default:
         return 'Échec';
     }

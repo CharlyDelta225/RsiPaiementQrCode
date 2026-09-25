@@ -1,6 +1,6 @@
 .dashboard {
   min-height: 100dvh;
-  background: #f6f9fc;
+  background: var(--color-creme);
   padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 1rem);
 }
 
@@ -36,10 +36,10 @@
 }
 
 .dashboard__header {
-  background: #1677e8;
+  background: var(--color-bordeaux);
   border-radius: 0 0 24px 24px;
   padding: calc(env(safe-area-inset-top) + 1rem) 1.25rem 2.5rem;
-  color: #fff;
+  color: var(--color-papier);
 }
 
 .dashboard__header-inner {
@@ -64,7 +64,7 @@
 
 .dashboard__subtext {
   font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-blanc-85);
 }
 
 .dashboard__body {

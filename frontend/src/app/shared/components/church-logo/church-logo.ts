@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 
 /**
  * Logo église (couleur configurable : blanc pour les fonds sombres,
- * bleu pour les fonds clairs).
+ * bordeaux pour les fonds clairs).
  */
 @Component({
   selector: 'app-church-logo',
@@ -36,5 +36,5 @@ import { Component, input } from '@angular/core';
 })
 export class ChurchLogoComponent {
   readonly size = input(45);
-  readonly color = input('#1677E8');
+  readonly color = input('var(--color-bordeaux)');
 }
