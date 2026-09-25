@@ -28,24 +28,25 @@ import java.util.List;
 @Service
 public class ContributionService {
 
-    private static final DateTimeFormatter REF_TS = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-
     private final ContributionRepository contributionRepository;
     private final OfferingTypeRepository offeringTypeRepository;
     private final TempleRepository templeRepository;
     private final MemberRepository memberRepository;
     private final ChurchRepository churchRepository;
+    private final ReferenceGenerator referenceGenerator;
 
     public ContributionService(ContributionRepository contributionRepository,
                                OfferingTypeRepository offeringTypeRepository,
                                TempleRepository templeRepository,
                                MemberRepository memberRepository,
-                               ChurchRepository churchRepository) {
+                               ChurchRepository churchRepository,
+                               ReferenceGenerator referenceGenerator) {
         this.contributionRepository = contributionRepository;
         this.offeringTypeRepository = offeringTypeRepository;
         this.templeRepository = templeRepository;
         this.memberRepository = memberRepository;
         this.churchRepository = churchRepository;
+        this.referenceGenerator = referenceGenerator;
     }
 
     @Transactional
@@ -139,11 +140,7 @@ public class ContributionService {
     }
 
     private String nextReference() {
-        String reference;
-        do {
-            reference = "CONT-" + LocalDateTime.now().format(REF_TS) + "-" + randomSuffix();
-        } while (contributionRepository.existsByReference(reference));
-        return reference;
+        return referenceGenerator.nextContributionReference();
     }
 
     private String trimToNull(String value) {
@@ -151,15 +148,5 @@ public class ContributionService {
             return null;
         }
         return value.trim();
-    }
-
-    private String randomSuffix() {
-        String chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-        StringBuilder sb = new StringBuilder(4);
-        java.util.concurrent.ThreadLocalRandom random = java.util.concurrent.ThreadLocalRandom.current();
-        for (int i = 0; i < 4; i++) {
-            sb.append(chars.charAt(random.nextInt(chars.length())));
-        }
-        return sb.toString();
     }
 }

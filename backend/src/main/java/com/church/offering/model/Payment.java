@@ -54,6 +54,9 @@ public class Payment extends Auditable {
     @Column(nullable = false, length = 20)
     private PaymentStatus status;
 
+    @Column(nullable = false)
+    private boolean simulated;
+
     @Column(columnDefinition = "TEXT")
     private String rawRequest;
 

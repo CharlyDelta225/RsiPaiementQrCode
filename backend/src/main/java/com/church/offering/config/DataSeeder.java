@@ -67,10 +67,18 @@ public class DataSeeder implements CommandLineRunner {
         List<Temple> temples = templeRepository.saveAll(List.of(templeAbidjan, templeYamoussoukro));
 
         offeringTypeRepository.saveAll(List.of(
-                offeringType("DIME", "Dîme", "La dîme : 10% des revenus", 1),
-                offeringType("OFFRANDE_CULTE", "Offrande du culte", "Offrande lors du culte", 2),
-                offeringType("PREMICE", "Prémices", "Prémices du mois", 3),
-                offeringType("DON", "Don", "Don libre", 4)));
+                offeringType("DIME", "Dîme", "La dîme : 10% des revenus", 1,
+                        "Apportez toutes les dîmes à la maison du trésor, et vous en aurez à manger dans ma maison.",
+                        "Malachie 3:10"),
+                offeringType("OFFRANDE_CULTE", "Offrande du culte", "Offrande lors du culte", 2,
+                        "Adoptez la sainteté dans la maison de l'Éternel, dans la maison de notre Dieu.",
+                        "Psaume 96:8"),
+                offeringType("PREMICE", "Prémices", "Prémices du mois", 3,
+                        "Que l'Éternel vous bénisse comme il vous l'a promis, et vous posséderez longuement ce pays.",
+                        "Deutéronome 11:25"),
+                offeringType("DON", "Don", "Don libre", 4,
+                        "Que chacun donne selon sa volonté, et non de mauvaise grâce, car Dieu aime celui qui donne avec joie.",
+                        "2 Corinthiens 9:7")));
 
         User admin = new User();
         admin.setEmail("admin@rsi.local");
@@ -137,11 +145,14 @@ public class DataSeeder implements CommandLineRunner {
         return temple;
     }
 
-    private OfferingType offeringType(String code, String label, String description, int sortOrder) {
+    private OfferingType offeringType(String code, String label, String description, int sortOrder,
+                                      String blessingText, String blessingRef) {
         OfferingType type = new OfferingType();
         type.setCode(code);
         type.setLabel(label);
         type.setDescription(description);
+        type.setBlessingText(blessingText);
+        type.setBlessingRef(blessingRef);
         type.setSortOrder(sortOrder);
         type.setActive(true);
         return type;

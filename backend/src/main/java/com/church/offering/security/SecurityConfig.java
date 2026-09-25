@@ -49,6 +49,10 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/temples/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/qr/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/public/offering-types").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/public/contributions",
+                                "/api/public/contributions/*/simulate-payment").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/contributions").permitAll()
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())

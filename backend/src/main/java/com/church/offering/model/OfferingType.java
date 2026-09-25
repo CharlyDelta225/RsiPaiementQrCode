@@ -29,6 +29,12 @@ public class OfferingType {
 
     private String description;
 
+    @Column(length = 255)
+    private String blessingText;
+
+    @Column(length = 60)
+    private String blessingRef;
+
     @Column(nullable = false)
     private boolean active = true;
 

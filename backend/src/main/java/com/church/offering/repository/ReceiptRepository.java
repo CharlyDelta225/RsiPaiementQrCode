@@ -9,6 +9,8 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
 
     Optional<Receipt> findByReceiptNumber(String receiptNumber);
 
+    boolean existsByReceiptNumber(String receiptNumber);
+
     Optional<Receipt> findByContributionId(Long contributionId);
 
     Optional<Receipt> findByVerificationToken(String verificationToken);

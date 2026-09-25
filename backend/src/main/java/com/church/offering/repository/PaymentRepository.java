@@ -10,5 +10,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     List<Payment> findByContributionId(Long contributionId);
 
+    Optional<Payment> findFirstByContributionIdOrderByIdAsc(Long contributionId);
+
     Optional<Payment> findByProviderTransactionId(String providerTransactionId);
 }
