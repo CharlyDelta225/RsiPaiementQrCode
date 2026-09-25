@@ -1,96 +1,103 @@
-import { Injectable, signal } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { User } from '../models/user.model';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { API_BASE_URL } from '../config/api.config';
+import { AuthResponse, RegisterRequest, UserView, toUser } from '../models/api.models';
+import { User, UserRole } from '../models/user.model';
+import { rethrow } from '../utils/api-error';
+import { TokenStorageService } from './token-storage.service';
 
-/**
- * Service d'authentification.
- * Phase actuelle : authentification simulée (mock) avec des identifiants de démonstration.
- * Phase future : branchement sur l'API Spring Boot (/api/auth/login, /api/auth/register).
- */
+export interface RegisterPayload {
+  fullName: string;
+  phone: string;
+  email: string;
+  password?: string;
+  templeId?: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly TOKEN_KEY = 'moneglise_token';
-  private readonly USER_KEY = 'moneglise_user';
+  private readonly http = inject(HttpClient);
+  private readonly storage = inject(TokenStorageService);
 
-  private readonly demoCredentials = {
-    email: 'demo@moneglise.com',
-    password: 'password',
-  };
-
-  private readonly demoUser: User = {
-    id: 1,
-    fullName: 'Jean Kouassi',
-    email: 'demo@moneglise.com',
-    phone: '+225 07 07 07 07 07',
-    roles: ['MEMBER'],
-  };
-
-  readonly currentUser = signal<User | null>(this.getStoredUser());
+  readonly currentUser = signal<User | null>(this.storage.getUser());
 
   login(identifier: string, password: string): Observable<User> {
-    const normalized = identifier.trim().toLowerCase();
-    if (
-      normalized === this.demoCredentials.email &&
-      password === this.demoCredentials.password
-    ) {
-      const user = this.demoUser;
-      this.persistSession('demo-token', user);
-      this.currentUser.set(user);
-      return of(user).pipe(delay(600));
-    }
-    return throwError(() => new Error('Identifiants incorrects.')).pipe(delay(400));
+    const body = { email: identifier.trim().toLowerCase(), password };
+    return this.http
+      .post<AuthResponse>(`${API_BASE_URL}/auth/login`, body)
+      .pipe(map((response) => this.openSession(response)), catchError(rethrow));
   }
 
-  register(payload: { fullName: string; phone: string; email: string }): Observable<User> {
-    const user: User = {
-      id: Math.floor(Date.now() / 1000),
-      fullName: payload.fullName,
-      email: payload.email.toLowerCase().trim(),
+  register(payload: RegisterPayload): Observable<User> {
+    if (!payload.password) {
+      return throwError(() => new Error('L’inscription nécessite un mot de passe.'));
+    }
+    if (!payload.templeId) {
+      return throwError(() => new Error('L’inscription nécessite le choix d’un temple.'));
+    }
+    const names = payload.fullName.trim().split(/\s+/);
+    const firstName = names[0] ?? '';
+    const lastName = names.slice(1).join(' ') || firstName;
+    const body: RegisterRequest = {
+      email: payload.email.trim().toLowerCase(),
+      password: payload.password,
+      firstName,
+      lastName,
       phone: payload.phone,
-      roles: ['MEMBER'],
+      templeId: payload.templeId,
     };
-    this.persistSession('demo-registered-token', user);
-    this.currentUser.set(user);
-    return of(user).pipe(delay(600));
+    return this.http
+      .post<AuthResponse>(`${API_BASE_URL}/auth/register`, body)
+      .pipe(map((response) => this.openSession(response)), catchError(rethrow));
+  }
+
+  hydrate(): Observable<User | null> {
+    const token = this.storage.getToken();
+    if (!token) {
+      this.currentUser.set(null);
+      return of(null);
+    }
+    return this.http.get<UserView>(`${API_BASE_URL}/auth/me`).pipe(
+      map((view) => {
+        const user = toUser(view);
+        this.storage.save(token, user);
+        this.currentUser.set(user);
+        return user;
+      }),
+      catchError(() => {
+        this.logout();
+        return of(null);
+      }),
+    );
   }
 
   logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
+    this.storage.clear();
     this.currentUser.set(null);
   }
 
   isAuthenticated(): boolean {
-    return this.getStoredToken() !== null;
+    return this.storage.getToken() !== null;
   }
 
   getCurrentUser(): User | null {
-    return this.getStoredUser();
+    return this.currentUser() ?? this.storage.getUser();
   }
 
   getToken(): string | null {
-    return this.getStoredToken();
+    return this.storage.getToken();
   }
 
-  private persistSession(token: string, user: User): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+  hasRole(roles: UserRole[]): boolean {
+    const user = this.getCurrentUser();
+    return user ? user.roles.some((role) => roles.includes(role)) : false;
   }
 
-  private getStoredToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
-
-  private getStoredUser(): User | null {
-    const raw = localStorage.getItem(this.USER_KEY);
-    if (!raw) {
-      return null;
-    }
-    try {
-      return JSON.parse(raw) as User;
-    } catch {
-      return null;
-    }
+  private openSession(response: AuthResponse): User {
+    const user = toUser(response.user);
+    this.storage.save(response.token, user);
+    this.currentUser.set(user);
+    return user;
   }
 }

@@ -1,6 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Observable, of, map } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Observable, of, map, throwError } from 'rxjs';
 import { User } from '../models/user.model';
 import { DashboardData } from '../models/dashboard.model';
 import { AuthService } from './auth.service';
@@ -40,9 +39,12 @@ export class MemberService {
 
   getProfile(): Observable<MemberProfile> {
     const user = this.authService.getCurrentUser();
-    const profile = user ? this.buildProfile(user) : this.buildProfile(this.authService['demoUser']);
+    if (!user) {
+      return throwError(() => new Error('Session expirée. Veuillez vous reconnecter.'));
+    }
+    const profile = this.buildProfile(user);
     this.profile.set(profile);
-    return of(profile).pipe(delay(150));
+    return of(profile);
   }
 
   getDashboardData(): Observable<DashboardData> {

@@ -93,6 +93,35 @@
       </div>
 
       <div class="register-field">
+        <label class="register-label" for="register-temple">Temple</label>
+        <select
+          class="register-select"
+          id="register-temple"
+          formControlName="templeId"
+          [disabled]="templesLoading() || templesError() !== null"
+        >
+          <option [ngValue]="null">
+            @if (templesLoading()) {
+              Chargement des temples…
+            } @else {
+              Sélectionnez votre temple
+            }
+          </option>
+          @for (temple of temples(); track temple.id) {
+            <option [ngValue]="temple.id">
+              {{ temple.name }} — {{ temple.city }}
+            </option>
+          }
+        </select>
+        @if (getFieldError('templeId')) {
+          <p class="register-error" role="alert">{{ getFieldError('templeId') }}</p>
+        }
+        @if (templesError()) {
+          <p class="register-error" role="alert">{{ templesError() }}</p>
+        }
+      </div>
+
+      <div class="register-field">
         <label class="register-label" for="register-pass">Mot de passe</label>
         <div class="register-input register-input--password">
           <input
@@ -114,6 +143,34 @@
         </div>
         @if (getFieldError('motDePasse')) {
           <p class="register-error" role="alert">{{ getFieldError('motDePasse') }}</p>
+        }
+      </div>
+
+      <div class="register-field">
+        <label class="register-label" for="register-pass-confirm">Confirmer le mot de passe</label>
+        <div class="register-input register-input--password">
+          <input
+            class="register-input__inner"
+            id="register-pass-confirm"
+            [type]="showConfirmPassword() ? 'text' : 'password'"
+            formControlName="confirmerMotDePasse"
+            placeholder="••••••••"
+            autocomplete="new-password"
+          />
+          <button
+            type="button"
+            class="register-password-toggle"
+            (click)="toggleConfirmPassword()"
+            [attr.aria-label]="showConfirmPassword() ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+          >
+            <app-icon [name]="showConfirmPassword() ? 'eye-off' : 'eye'" [size]="20" />
+          </button>
+        </div>
+        @if (getFieldError('confirmerMotDePasse')) {
+          <p class="register-error" role="alert">{{ getFieldError('confirmerMotDePasse') }}</p>
+        }
+        @if (passwordsMismatch) {
+          <p class="register-error" role="alert">Les mots de passe ne correspondent pas.</p>
         }
       </div>
 
