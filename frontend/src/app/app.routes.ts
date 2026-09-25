@@ -18,6 +18,32 @@ export const routes: Routes = [
       import('./features/auth/pages/register/register.page').then((m) => m.RegisterPage),
   },
   {
+    path: 'don',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/donation/pages/donation-welcome/donation-welcome.page').then(
+            (m) => m.DonationWelcomePage,
+          ),
+      },
+      {
+        path: 'type',
+        loadComponent: () =>
+          import('./features/donation/pages/donation-type/donation-type.page').then(
+            (m) => m.DonationTypePage,
+          ),
+      },
+      {
+        path: 'confirmation',
+        loadComponent: () =>
+          import(
+            './features/donation/pages/donation-confirmation/donation-confirmation.page'
+          ).then((m) => m.DonationConfirmationPage),
+      },
+    ],
+  },
+  {
     path: 'member',
     loadChildren: () =>
       import('./features/member/member.routes').then((m) => m.memberRoutes),

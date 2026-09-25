@@ -1,0 +1,40 @@
+@use '../don-flow';
+
+.don-confirm__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  text-align: center;
+}
+
+.don-confirm__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  color: var(--color-papier);
+  background: linear-gradient(180deg, var(--color-or-clair) 0%, var(--color-or) 100%);
+  border-radius: 50%;
+  box-shadow: 0 6px 16px var(--color-or-45);
+}
+
+.don-confirm__title {
+  margin: 0.25rem 0 0;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-bordeaux);
+}
+
+.don-confirm__subtitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-encre-doux);
+}
+
+.don-confirm__code {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}

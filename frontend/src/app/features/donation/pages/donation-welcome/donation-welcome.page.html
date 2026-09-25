@@ -1,0 +1,43 @@
+<div class="don-page">
+  <div class="don-background" aria-hidden="true"></div>
+
+  <main class="don-container">
+    <header class="don-header">
+      <app-church-logo [size]="44" [color]="'var(--color-or-clair)'" />
+      <h1 class="don-title">Faire un don</h1>
+      <p class="don-subtitle">Scannez ce QR code pour soutenir l'église</p>
+    </header>
+
+    <section class="don-card">
+      <div class="don-qr">
+        <img
+          class="don-qr__image"
+          [class.don-qr__image--hidden]="qrState() !== 'ready'"
+          [src]="qrUrl"
+          alt="QR code pour faire un don à l'église"
+          width="600"
+          height="600"
+          (load)="onQrLoaded()"
+          (error)="onQrError()"
+        />
+
+        @if (qrState() === 'loading') {
+          <div class="don-qr__overlay" role="status">
+            <span class="don-spinner" aria-hidden="true"></span>
+            <span class="don-qr__hint">Chargement du QR code…</span>
+          </div>
+        }
+
+        @if (qrState() === 'error') {
+          <div class="don-qr__overlay" role="alert">
+            <span class="don-qr__error">QR indisponible, contactez l'accueil</span>
+          </div>
+        }
+      </div>
+
+      <a class="don-cta" routerLink="/don/type">Faire un don</a>
+
+      <p class="don-note">Un QR unique pour toute l'église, quel que soit votre temple.</p>
+    </section>
+  </main>
+</div>

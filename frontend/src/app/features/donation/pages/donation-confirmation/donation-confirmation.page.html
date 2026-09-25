@@ -1,0 +1,58 @@
+<div class="don-flow">
+  <main class="don-flow__container">
+    @if (details(); as info) {
+      <header class="don-confirm__header">
+        <span class="don-confirm__badge" aria-hidden="true">
+          <app-icon name="check" [size]="28" />
+        </span>
+        <h1 class="don-confirm__title">Merci pour votre don</h1>
+        <p class="don-confirm__subtitle">Votre offrande a bien été enregistrée.</p>
+      </header>
+
+      @if (blessing(); as verse) {
+        <app-bible-verse-card [text]="verse.text" [reference]="verse.reference" />
+      }
+
+      <section class="don-flow__card">
+        <h2 class="don-recap__title">Récapitulatif du reçu</h2>
+        <dl class="don-recap__list">
+          <div class="don-recap__row">
+            <dt>Référence</dt>
+            <dd class="don-confirm__code">{{ info.reference }}</dd>
+          </div>
+          <div class="don-recap__row">
+            <dt>Type d’offrande</dt>
+            <dd>{{ info.typeLabel }}</dd>
+          </div>
+          <div class="don-recap__row">
+            <dt>Montant</dt>
+            <dd>{{ info.amountLabel }}</dd>
+          </div>
+          <div class="don-recap__row">
+            <dt>Mode de paiement</dt>
+            <dd>{{ info.providerLabel }}</dd>
+          </div>
+          <div class="don-recap__row">
+            <dt>Date</dt>
+            <dd>{{ info.dateLabel }}</dd>
+          </div>
+          @if (info.receiptNumber) {
+            <div class="don-recap__row">
+              <dt>N° de reçu</dt>
+              <dd class="don-confirm__code">{{ info.receiptNumber }}</dd>
+            </div>
+          }
+        </dl>
+        @if (simulated()) {
+          <p class="don-recap__note">
+            Paiement enregistré en mode simulation : aucun débit n’a été effectué.
+          </p>
+        }
+      </section>
+
+      <footer class="don-flow__footer">
+        <app-primary-button (clicked)="startNewDonation()">Faire un nouveau don</app-primary-button>
+      </footer>
+    }
+  </main>
+</div>

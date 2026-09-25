@@ -1,0 +1,190 @@
+.don-page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  background: var(--color-bordeaux-deep);
+}
+
+.don-background {
+  position: absolute;
+  inset: 0;
+  background: url('/images/church-bg.png') center center / cover no-repeat;
+}
+
+.don-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--color-bordeaux-30),
+    var(--color-bordeaux-deep-75)
+  );
+}
+
+.don-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--page-max-width);
+  min-height: 100dvh;
+  padding: calc(env(safe-area-inset-top) + 2rem)
+    calc(env(safe-area-inset-right) + 1.25rem)
+    calc(env(safe-area-inset-bottom) + 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.don-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.625rem;
+}
+
+.don-title {
+  margin: 0;
+  font-size: clamp(1.5rem, 6vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-papier);
+}
+
+.don-subtitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-blanc-85);
+}
+
+.don-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: linear-gradient(
+    160deg,
+    var(--color-papier) 0%,
+    var(--color-creme) 100%
+  );
+  border: 1px solid var(--color-or-35);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.don-qr {
+  position: relative;
+  width: min(100%, 300px);
+  aspect-ratio: 1;
+  padding: 0.75rem;
+  background: var(--color-papier);
+  border: 1px solid var(--color-or-45);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.don-qr__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.don-qr__image--hidden {
+  visibility: hidden;
+}
+
+.don-qr__overlay {
+  position: absolute;
+  inset: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+  background: var(--color-papier);
+}
+
+.don-qr__hint,
+.don-qr__error {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-encre-doux);
+}
+
+.don-qr__error {
+  color: var(--color-bordeaux);
+}
+
+.don-spinner {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 3px solid var(--color-or-35);
+  border-top-color: var(--color-or);
+  border-radius: 50%;
+  animation: don-spin 0.8s linear infinite;
+}
+
+@keyframes don-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.don-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  background: linear-gradient(
+    180deg,
+    var(--color-or-clair) 0%,
+    var(--color-or) 100%
+  );
+  color: var(--color-bordeaux-deep);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 12px var(--color-bordeaux-deep-15);
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.don-cta:hover {
+  opacity: 0.92;
+  box-shadow: 0 6px 16px var(--color-bordeaux-deep-25);
+}
+
+.don-cta:active {
+  transform: scale(0.98);
+}
+
+.don-note {
+  margin: 0;
+  font-size: var(--text-xs);
+  text-align: center;
+  color: var(--color-encre-doux);
+}
+
+@media (min-width: 768px) {
+  .don-container {
+    max-width: 560px;
+    justify-content: center;
+  }
+
+  .don-qr {
+    width: min(100%, 340px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .don-spinner {
+    animation-duration: 1.6s;
+  }
+}

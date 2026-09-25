@@ -1,0 +1,170 @@
+<div class="don-flow">
+  <main class="don-flow__container">
+    <header class="don-flow__header">
+      <button type="button" class="don-flow__back" (click)="back()">
+        <app-icon name="arrow-back" [size]="18" />
+        <span>{{ step() === 1 ? 'QR code' : 'Précédent' }}</span>
+      </button>
+
+      <div class="don-flow__progress">
+        <div class="don-flow__progress-row">
+          <span class="don-flow__progress-label">Étape {{ step() }} / {{ totalSteps }}</span>
+          <span class="don-flow__progress-step">{{ stepLabel() }}</span>
+        </div>
+        <div
+          class="don-flow__track"
+          role="progressbar"
+          aria-valuemin="1"
+          [attr.aria-valuenow]="step()"
+          [attr.aria-valuemax]="totalSteps"
+          [attr.aria-label]="stepLabel()"
+        >
+          <span class="don-flow__fill" [style.width.%]="progress()"></span>
+        </div>
+      </div>
+    </header>
+
+    @switch (step()) {
+      @case (1) {
+        <section class="don-flow__card">
+          <h1 class="don-flow__title">Quel type d’offrande ?</h1>
+
+          @if (offeringTypesState() === 'loading') {
+            <p class="don-flow__status" role="status">
+              <span class="don-spinner" aria-hidden="true"></span>
+              Chargement des types d’offrande…
+            </p>
+          } @else if (offeringTypesState() === 'error') {
+            <div class="don-flow__error" role="alert">
+              <p>Impossible de charger les types d’offrande. Vérifiez votre connexion.</p>
+              <button type="button" class="don-link" (click)="reloadOfferingTypes()">Réessayer</button>
+            </div>
+          } @else {
+            <ul class="don-types">
+              @for (type of offeringTypes(); track type.id) {
+                <li>
+                  <app-type-card
+                    [type]="type"
+                    [selected]="type.id === selectedOfferingTypeId()"
+                    (picked)="selectType($event)"
+                  />
+                </li>
+              }
+            </ul>
+          }
+        </section>
+      }
+      @case (2) {
+        <section class="don-flow__card">
+          <h1 class="don-flow__title">Quel montant souhaitez-vous offrir ?</h1>
+
+          <label class="don-amount__label" for="don-amount">Montant en FCFA</label>
+          <div class="don-amount__control">
+            <input
+              id="don-amount"
+              class="don-amount__input"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              placeholder="0"
+              aria-describedby="don-amount-preview"
+              [value]="amountInput()"
+              (input)="onAmountInput($event)"
+            />
+            <span class="don-amount__currency" aria-hidden="true">FCFA</span>
+          </div>
+          <p class="don-amount__preview" id="don-amount-preview" aria-live="polite">
+            {{ amountPreview() ?? 'Saisissez un montant d’au moins 1 FCFA' }}
+          </p>
+
+          <div class="don-quick">
+            @for (quick of quickAmounts; track quick) {
+              <button
+                type="button"
+                class="don-quick__chip"
+                [class.don-quick__chip--active]="isQuickAmountActive(quick)"
+                (click)="selectQuickAmount(quick)"
+              >
+                {{ formatFcfa(quick) }}
+              </button>
+            }
+          </div>
+        </section>
+      }
+      @case (3) {
+        <section class="don-flow__card">
+          <h1 class="don-flow__title">Comment souhaitez-vous payer ?</h1>
+
+          <ul class="don-providers" role="radiogroup" aria-label="Mode de paiement">
+            @for (option of providers; track option.id) {
+              <li>
+                <button
+                  type="button"
+                  role="radio"
+                  class="don-provider"
+                  [class.don-provider--selected]="option.id === selectedProvider()"
+                  [attr.aria-checked]="option.id === selectedProvider()"
+                  (click)="selectProvider(option.id)"
+                >
+                  <span class="don-provider__text">
+                    <span class="don-provider__label">{{ option.label }}</span>
+                    <span class="don-provider__hint">{{ option.hint }}</span>
+                  </span>
+                  <span class="don-provider__radio" aria-hidden="true"></span>
+                </button>
+              </li>
+            }
+          </ul>
+
+          @if (recapVisible() && recap(); as summary) {
+            <div class="don-recap">
+              <h2 class="don-recap__title">Récapitulatif</h2>
+              <dl class="don-recap__list">
+                <div class="don-recap__row">
+                  <dt>Type</dt>
+                  <dd>{{ summary.typeLabel }}</dd>
+                </div>
+                <div class="don-recap__row">
+                  <dt>Montant</dt>
+                  <dd>{{ summary.amountLabel }}</dd>
+                </div>
+                <div class="don-recap__row">
+                  <dt>Paiement</dt>
+                  <dd>{{ summary.providerLabel }}</dd>
+                </div>
+              </dl>
+              <p class="don-recap__note">
+                Aucun débit réel : le paiement est enregistré en mode simulation.
+              </p>
+              @if (errorMessage(); as message) {
+                <div class="don-flow__error" role="alert">
+                  <p>{{ message }}</p>
+                </div>
+              }
+              @if (!submitting()) {
+                <button type="button" class="don-link" (click)="editChoices()">
+                  Modifier mes choix
+                </button>
+              }
+            </div>
+          }
+        </section>
+      }
+    }
+
+    <footer class="don-flow__footer">
+      @if (submitting()) {
+        <p class="don-flow__status" role="status">
+          Enregistrement de votre don et confirmation du paiement…
+        </p>
+      }
+      <app-primary-button
+        [disabled]="!canContinue()"
+        [loading]="submitting()"
+        (clicked)="continue()"
+      >
+        {{ actionLabel() }}
+      </app-primary-button>
+    </footer>
+  </main>
+</div>
