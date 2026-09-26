@@ -1,6 +1,8 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
+  "navigationRequestStrategy": "performance",
+  "navigationUrls": ["/**", "!/**/*.*", "!/**/*__*", "!/**/*__*/**"],
   "assetGroups": [
     {
       "name": "app",
@@ -19,18 +21,24 @@
     {
       "name": "assets",
       "installMode": "lazy",
-      "updateMode": "prefetch",
+      "updateMode": "lazy",
       "resources": {
-        "files": [
-          "/icons/**",
-          "/images/**"
-        ]
+        "files": ["/icons/**", "/images/**"]
       }
     }
   ],
   "dataGroups": [
     {
-      "name": "api",
+      "name": "qr-church",
+      "urls": ["/api/qr/**"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 4,
+        "maxAge": "7d"
+      }
+    },
+    {
+      "name": "api-freshness",
       "urls": ["/api/**"],
       "cacheConfig": {
         "strategy": "freshness",

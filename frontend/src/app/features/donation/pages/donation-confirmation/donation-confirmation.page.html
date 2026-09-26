@@ -50,6 +50,24 @@
         }
       </section>
 
+      @if (canInstall()) {
+        <section class="don-install" aria-labelledby="don-install-title">
+          <div class="don-install__text">
+            <h2 class="don-install__title" id="don-install-title">Installer l’application</h2>
+            <p class="don-install__hint">
+              Gardez vos reçus à portée de pouce et faites vos prochains dons en un clic, même hors
+              connexion.
+            </p>
+          </div>
+          <div class="don-install__actions">
+            <app-primary-button (clicked)="installApp()">Installer</app-primary-button>
+            <button class="don-install__later" type="button" (click)="dismissInstall()">
+              Plus tard
+            </button>
+          </div>
+        </section>
+      }
+
       <footer class="don-flow__footer">
         <app-primary-button (clicked)="startNewDonation()">Faire un nouveau don</app-primary-button>
       </footer>

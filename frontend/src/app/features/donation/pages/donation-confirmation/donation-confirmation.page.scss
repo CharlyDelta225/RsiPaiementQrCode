@@ -38,3 +38,53 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
 }
+
+.don-install {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.125rem;
+  background: var(--color-papier);
+  border: 1px solid var(--color-or-35);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.don-install__title {
+  margin: 0 0 0.25rem;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-bordeaux);
+}
+
+.don-install__hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-encre-doux);
+}
+
+.don-install__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.don-install__later {
+  padding: 0.25rem 0.75rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-encre-doux);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+}
+
+.don-install__later:hover {
+  color: var(--color-bordeaux);
+}
+
+.don-install__later:focus-visible {
+  outline: 3px solid var(--color-or-60);
+  outline-offset: 2px;
+}
