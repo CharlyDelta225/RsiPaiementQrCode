@@ -78,9 +78,16 @@ public class QrCodeService {
     private byte[] render() {
         BufferedImage badge = logoBadge();
         try {
-            BufferedImage qr = MatrixToImageWriter.toBufferedImage(encodeMatrix());
+            BufferedImage matrixImage = MatrixToImageWriter.toBufferedImage(encodeMatrix());
+            // MatrixToImageWriter renvoie une image 1 bit (noir et blanc) : composer le blason
+            // directement dessus le desature, donc on passe par un canevas RVB.
+            BufferedImage qr = new BufferedImage(matrixImage.getWidth(), matrixImage.getHeight(),
+                    BufferedImage.TYPE_INT_RGB);
             Graphics2D graphics = qr.createGraphics();
             try {
+                graphics.setColor(Color.WHITE);
+                graphics.fillRect(0, 0, qr.getWidth(), qr.getHeight());
+                graphics.drawImage(matrixImage, 0, 0, null);
                 graphics.drawImage(badge, (size - badge.getWidth()) / 2, (size - badge.getHeight()) / 2, null);
             } finally {
                 graphics.dispose();

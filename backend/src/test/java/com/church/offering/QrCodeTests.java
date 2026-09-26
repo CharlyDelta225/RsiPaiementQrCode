@@ -36,18 +36,60 @@ class QrCodeTests {
 
     @Test
     void qrCodePublicEtDecodable() throws Exception {
-        byte[] png = mockMvc.perform(get("/api/qr/church"))
+        byte[] png = qrPng();
+
+        assertThat(png.length).isGreaterThan(1000);
+        assertThat(png[0] & 0xFF).isEqualTo(0x89);
+        assertThat(new String(png, 1, 3, StandardCharsets.US_ASCII)).isEqualTo("PNG");
+        assertThat(decode(png)).isEqualTo(donationUrl);
+    }
+
+    @Test
+    void blasonRsiEnCouleurEtLimiteAuRatioDuLogo() throws Exception {
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(qrPng()));
+        int width = image.getWidth();
+        int minX = width;
+        int minY = image.getHeight();
+        int maxX = -1;
+        int maxY = -1;
+        int colored = 0;
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < width; x++) {
+                int rgb = image.getRGB(x, y);
+                int r = (rgb >> 16) & 0xFF;
+                int g = (rgb >> 8) & 0xFF;
+                int b = rgb & 0xFF;
+                if (Math.max(r, Math.max(g, b)) - Math.min(r, Math.min(g, b)) <= 25) {
+                    continue;
+                }
+                colored++;
+                minX = Math.min(minX, x);
+                maxX = Math.max(maxX, x);
+                minY = Math.min(minY, y);
+                maxY = Math.max(maxY, y);
+            }
+        }
+
+        assertThat(colored).as("pixels colores du blason (le logo doit etre en couleur)").isGreaterThan(500);
+        int logoWidth = maxX - minX + 1;
+        int logoHeight = maxY - minY + 1;
+        int maxLogo = Math.round(width * 0.22f);
+        assertThat(Math.max(logoWidth, logoHeight))
+                .as("blason %d x %d px pour un QR de %d px (plafond %d px)", logoWidth, logoHeight, width, maxLogo)
+                .isLessThanOrEqualTo(maxLogo + 1);
+        assertThat(Math.abs((minX + maxX) / 2 - width / 2)).as("blason centre horizontalement").isLessThanOrEqualTo(2);
+        assertThat(Math.abs((minY + maxY) / 2 - image.getHeight() / 2)).as("blason centre verticalement")
+                .isLessThanOrEqualTo(2);
+    }
+
+    private byte[] qrPng() throws Exception {
+        return mockMvc.perform(get("/api/qr/church"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.IMAGE_PNG))
                 .andExpect(header().string("X-Qr-Payload", donationUrl))
                 .andReturn()
                 .getResponse()
                 .getContentAsByteArray();
-
-        assertThat(png.length).isGreaterThan(1000);
-        assertThat(png[0] & 0xFF).isEqualTo(0x89);
-        assertThat(new String(png, 1, 3, StandardCharsets.US_ASCII)).isEqualTo("PNG");
-        assertThat(decode(png)).isEqualTo(donationUrl);
     }
 
     private String decode(byte[] png) throws Exception {
