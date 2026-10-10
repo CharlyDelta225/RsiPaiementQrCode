@@ -21,7 +21,7 @@ public interface ContributionRepository extends JpaRepository<Contribution, Long
 
     List<Contribution> findByMemberId(Long memberId);
 
-    List<Contribution> findByMemberIdOrderByPaidAtDesc(Long memberId);
+    List<Contribution> findByMemberIdOrderByCreatedAtDesc(Long memberId);
 
     List<Contribution> findByTempleId(Long templeId);
 

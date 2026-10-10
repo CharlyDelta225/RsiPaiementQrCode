@@ -32,4 +32,15 @@ public class QrCodeController {
                 .cacheControl(CacheControl.maxAge(Duration.ofHours(24)).cachePublic().immutable())
                 .body(png);
     }
+
+    @GetMapping(value = "/app", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> app() {
+        byte[] png = qrCodeService.appQrPng();
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .contentLength(png.length)
+                .header(PAYLOAD_HEADER, qrCodeService.appUrl())
+                .cacheControl(CacheControl.maxAge(Duration.ofHours(24)).cachePublic().immutable())
+                .body(png);
+    }
 }

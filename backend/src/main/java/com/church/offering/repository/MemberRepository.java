@@ -14,6 +14,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsByPhone(String phone);
 
+    boolean existsByPhoneAndIdNot(String phone, Long id);
+
     List<Member> findByFullNameContainingIgnoreCaseOrPhoneContainingIgnoreCaseOrderByFullNameAsc(
             String fullName, String phone);
 

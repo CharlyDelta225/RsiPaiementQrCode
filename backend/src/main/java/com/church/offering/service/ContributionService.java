@@ -107,7 +107,7 @@ public class ContributionService {
         if (memberId == null) {
             return List.of();
         }
-        return contributionRepository.findByMemberIdOrderByPaidAtDesc(memberId)
+        return contributionRepository.findByMemberIdOrderByCreatedAtDesc(memberId)
                 .stream().map(ContributionView::from).toList();
     }
 

@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class QrCodeService {
@@ -36,13 +37,17 @@ public class QrCodeService {
     private static final double BADGE_PADDING = 0.2;
 
     private final String donationUrl;
+    private final String appUrl;
     private final int size;
 
-    private volatile byte[] cachedPng;
+    /** PNG déjà rendus, par URL encodée (les deux URL sont fixes : don et application). */
+    private final Map<String, byte[]> cache = new ConcurrentHashMap<>();
 
     public QrCodeService(@Value("${app.qr.donation-url}") String donationUrl,
+                         @Value("${app.qr.app-url}") String appUrl,
                          @Value("${app.qr.size:600}") int size) {
         this.donationUrl = donationUrl;
+        this.appUrl = appUrl;
         this.size = size;
     }
 
@@ -60,25 +65,33 @@ public class QrCodeService {
         return donationUrl;
     }
 
+    public String appUrl() {
+        return appUrl;
+    }
+
+    /** QR du don (affiché à l'église) : ouvre le parcours de don public. */
     public byte[] churchQrPng() {
-        byte[] png = cachedPng;
-        if (png == null) {
-            synchronized (this) {
-                png = cachedPng;
-                if (png == null) {
-                    png = render();
-                    cachedPng = png;
-                    log.info("QR code d'offande généré ({} octets)", png.length);
-                }
-            }
-        }
+        return qrPng(donationUrl);
+    }
+
+    /** QR d'installation : ouvre l'application sur le téléphone (proposé depuis un ordinateur). */
+    public byte[] appQrPng() {
+        return qrPng(appUrl);
+    }
+
+    private byte[] qrPng(String url) {
+        byte[] png = cache.computeIfAbsent(url, key -> {
+            byte[] rendered = render(key);
+            log.info("QR code généré pour {} ({} octets)", key, rendered.length);
+            return rendered;
+        });
         return png.clone();
     }
 
-    private byte[] render() {
+    private byte[] render(String url) {
         BufferedImage badge = logoBadge();
         try {
-            BufferedImage matrixImage = MatrixToImageWriter.toBufferedImage(encodeMatrix());
+            BufferedImage matrixImage = MatrixToImageWriter.toBufferedImage(encodeMatrix(url));
             // MatrixToImageWriter renvoie une image 1 bit (noir et blanc) : composer le blason
             // directement dessus le desature, donc on passe par un canevas RVB.
             BufferedImage qr = new BufferedImage(matrixImage.getWidth(), matrixImage.getHeight(),
@@ -102,11 +115,11 @@ public class QrCodeService {
         }
     }
 
-    private BitMatrix encodeMatrix() throws WriterException {
+    private BitMatrix encodeMatrix(String url) throws WriterException {
         Map<EncodeHintType, Object> hints = new EnumMap<>(EncodeHintType.class);
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
-        return new QRCodeWriter().encode(donationUrl, BarcodeFormat.QR_CODE, size, size, hints);
+        return new QRCodeWriter().encode(url, BarcodeFormat.QR_CODE, size, size, hints);
     }
 
     private BufferedImage logoBadge() {

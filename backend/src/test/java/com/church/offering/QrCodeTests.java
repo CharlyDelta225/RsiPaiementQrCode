@@ -34,6 +34,9 @@ class QrCodeTests {
     @Value("${app.qr.donation-url}")
     private String donationUrl;
 
+    @Value("${app.qr.app-url}")
+    private String appUrl;
+
     @Test
     void qrCodePublicEtDecodable() throws Exception {
         byte[] png = qrPng();
@@ -80,6 +83,20 @@ class QrCodeTests {
         assertThat(Math.abs((minX + maxX) / 2 - width / 2)).as("blason centre horizontalement").isLessThanOrEqualTo(2);
         assertThat(Math.abs((minY + maxY) / 2 - image.getHeight() / 2)).as("blason centre verticalement")
                 .isLessThanOrEqualTo(2);
+    }
+
+    @Test
+    void qrCodeInstallationPublicEtDecodableVersLApplication() throws Exception {
+        byte[] png = mockMvc.perform(get("/api/qr/app"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.IMAGE_PNG))
+                .andExpect(header().string("X-Qr-Payload", appUrl))
+                .andReturn()
+                .getResponse()
+                .getContentAsByteArray();
+
+        assertThat(appUrl).isNotEqualTo(donationUrl);
+        assertThat(decode(png)).isEqualTo(appUrl);
     }
 
     private byte[] qrPng() throws Exception {
