@@ -1,0 +1,102 @@
+<div class="member-page">
+  <header class="member-page__header">
+    <div class="member-page__header-inner">
+      <a class="member-page__back" routerLink="/member/dashboard" aria-label="Retour à l’accueil">
+        <app-icon name="arrow-back" [size]="20" />
+      </a>
+      <h1 class="member-page__title">Réglages</h1>
+    </div>
+  </header>
+
+  <main class="member-page__body">
+    @if (account(); as me) {
+      <a class="member-card settings-profile" routerLink="/member/settings/profile">
+        <span class="settings-profile__avatar" aria-hidden="true">{{ me.initials }}</span>
+        <span class="settings-profile__text">
+          <span class="settings-profile__name">{{ me.name }}</span>
+          <span class="settings-profile__meta">{{ me.phone }}</span>
+          <span class="settings-profile__edit">Modifier mon profil</span>
+        </span>
+        <app-icon name="chevron-right" [size]="20" />
+      </a>
+
+      <section class="settings-group" aria-labelledby="settings-account">
+        <h2 class="settings-group__title" id="settings-account">Compte</h2>
+        <ul class="settings-list">
+          <li>
+            <a class="settings-row" routerLink="/member/settings/profile">
+              <span class="settings-row__icon" aria-hidden="true"><app-icon name="person" [size]="20" /></span>
+              <span class="settings-row__label">Informations personnelles</span>
+              <app-icon class="settings-row__chevron" name="chevron-right" [size]="20" />
+            </a>
+          </li>
+          <li>
+            <a class="settings-row" routerLink="/member/settings/password">
+              <span class="settings-row__icon" aria-hidden="true"><app-icon name="lock" [size]="20" /></span>
+              <span class="settings-row__label">Mot de passe</span>
+              <app-icon class="settings-row__chevron" name="chevron-right" [size]="20" />
+            </a>
+          </li>
+          <li>
+            <div class="settings-row settings-row--static">
+              <span class="settings-row__icon" aria-hidden="true"><app-icon name="info" [size]="20" /></span>
+              <span class="settings-row__label">Email</span>
+              <span class="settings-row__value">{{ me.email }}</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="settings-group" aria-labelledby="settings-church">
+        <h2 class="settings-group__title" id="settings-church">Mon église</h2>
+        <ul class="settings-list">
+          <li>
+            <div class="settings-row settings-row--static">
+              <span class="settings-row__icon" aria-hidden="true"><app-icon name="temple" [size]="20" /></span>
+              <span class="settings-row__label">Temple</span>
+              <span class="settings-row__value">{{ me.temple ?? '—' }}</span>
+            </div>
+          </li>
+          <li>
+            <div class="settings-row settings-row--static">
+              <span class="settings-row__icon" aria-hidden="true"><app-icon name="sparkle" [size]="20" /></span>
+              <span class="settings-row__label">Profil</span>
+              <span class="settings-row__value">{{ me.role }}</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      @if (canInstall()) {
+        <section class="settings-group" aria-labelledby="settings-app">
+          <h2 class="settings-group__title" id="settings-app">Application</h2>
+          <ul class="settings-list">
+            <li>
+              <button type="button" class="settings-row" (click)="installApp()">
+                <span class="settings-row__icon" aria-hidden="true"><app-icon name="download" [size]="20" /></span>
+                <span class="settings-row__label">Installer l’application</span>
+                <app-icon class="settings-row__chevron" name="chevron-right" [size]="20" />
+              </button>
+            </li>
+          </ul>
+        </section>
+      }
+
+      <ul class="settings-list">
+        <li>
+          <button
+            type="button"
+            class="settings-row settings-row--danger"
+            aria-haspopup="dialog"
+            (click)="logoutDialog.open()"
+          >
+            <span class="settings-row__icon" aria-hidden="true"><app-icon name="logout" [size]="20" /></span>
+            <span class="settings-row__label">Se déconnecter</span>
+          </button>
+        </li>
+      </ul>
+    }
+  </main>
+</div>
+
+<app-logout-dialog #logoutDialog />

@@ -5,7 +5,9 @@
         <span class="don-confirm__badge" aria-hidden="true">
           <app-icon name="check" [size]="28" />
         </span>
-        <h1 class="don-confirm__title">Merci pour votre don</h1>
+        <h1 class="don-confirm__title">
+          {{ mode === 'member' ? 'Merci pour votre contribution' : 'Merci pour votre don' }}
+        </h1>
         <p class="don-confirm__subtitle">Votre offrande a bien été enregistrée.</p>
       </header>
 
@@ -68,8 +70,17 @@
         </section>
       }
 
-      <footer class="don-flow__footer">
-        <app-primary-button (clicked)="startNewDonation()">Faire un nouveau don</app-primary-button>
+      <footer class="don-flow__footer don-confirm__actions">
+        @if (mode === 'member') {
+          <app-primary-button (clicked)="goTo('/member/dashboard')">
+            Retour à l’accueil
+          </app-primary-button>
+          <app-primary-button variant="outline" (clicked)="goTo('/member/contributions')">
+            Voir mon historique
+          </app-primary-button>
+        } @else {
+          <app-primary-button (clicked)="startNewDonation()">Faire un nouveau don</app-primary-button>
+        }
       </footer>
     }
   </main>

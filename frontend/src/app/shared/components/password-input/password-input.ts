@@ -8,7 +8,7 @@ import { AppIconComponent } from '../app-icon/app-icon';
   imports: [ReactiveFormsModule, AppIconComponent],
   template: `
     <div class="field">
-      <label class="field__label" [for]="id">Mot de passe</label>
+      <label class="field__label" [for]="id">{{ label }}</label>
       <div class="field__control" [class.field__control--invalid]="showError()">
         <div class="field__wrapper">
           <input
@@ -104,6 +104,7 @@ import { AppIconComponent } from '../app-icon/app-icon';
 })
 export class PasswordInputComponent {
   @Input() control = new FormControl<string>('');
+  @Input() label = 'Mot de passe';
   @Input() placeholder = 'Votre mot de passe';
   @Input() autocomplete = 'current-password';
   @Input() id = `password-input-${Math.random().toString(36).slice(2, 9)}`;

@@ -71,12 +71,14 @@
   box-sizing: border-box;
 }
 
+/* `clip` (et non `hidden`) : body ne devient pas un conteneur de défilement,
+   c'est la fenêtre qui défile (barre d'adresse mobile, scrollIntoView, restauration). */
 html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  overflow-x: hidden;
+  min-height: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -97,11 +99,6 @@ body {
       radial-gradient(circle at 80% 100%, #{rgba(t.$bordeaux-deep, 0.12)}, transparent 45%),
       var(--color-bg);
     background-attachment: fixed;
-  }
-
-  /* Tablet (>=768px) : l'app sort du cadre 430px et occupe tout l'écran */
-  .app-shell {
-    max-width: none;
   }
 }
 
@@ -154,6 +151,14 @@ img {
   background: var(--color-bg);
   position: relative;
   box-shadow: 0 0 40px #{rgba(t.$bordeaux-deep, 0.08)};
+}
+
+/* Tablet (>=768px) : l'app sort du cadre 430px et occupe tout l'écran.
+   Doit rester APRÈS la règle de base ci-dessus (même spécificité). */
+@media (min-width: 768px) {
+  .app-shell {
+    max-width: none;
+  }
 }
 
 /* Contenu scrollable au-dessus de la bottom-nav pour les pages membres */

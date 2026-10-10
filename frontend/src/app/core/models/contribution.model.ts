@@ -5,6 +5,8 @@ export interface Contribution {
   type: string;
   amount: number;
   date: string;
+  /** Date ISO (paiement, sinon création) — tri et regroupement par mois. */
+  isoDate: string;
   temple: string;
   status: ContributionStatus;
 }

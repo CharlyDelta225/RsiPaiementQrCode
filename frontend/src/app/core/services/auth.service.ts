@@ -2,7 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { API_BASE_URL } from '../config/api.config';
-import { AuthResponse, RegisterRequest, UserView, toUser } from '../models/api.models';
+import {
+  AuthResponse,
+  PasswordChangeRequest,
+  ProfileUpdateRequest,
+  RegisterRequest,
+  UserView,
+  toUser,
+} from '../models/api.models';
 import { User, UserRole } from '../models/user.model';
 import { rethrow } from '../utils/api-error';
 import { TokenStorageService } from './token-storage.service';
@@ -70,6 +77,27 @@ export class AuthService {
         return of(null);
       }),
     );
+  }
+
+  updateProfile(request: ProfileUpdateRequest): Observable<User> {
+    return this.http.put<UserView>(`${API_BASE_URL}/my/profile`, request).pipe(
+      map((view) => {
+        const user = toUser(view);
+        const token = this.storage.getToken();
+        if (token) {
+          this.storage.save(token, user);
+        }
+        this.currentUser.set(user);
+        return user;
+      }),
+      catchError(rethrow),
+    );
+  }
+
+  changePassword(request: PasswordChangeRequest): Observable<void> {
+    return this.http
+      .put<void>(`${API_BASE_URL}/my/password`, request)
+      .pipe(catchError(rethrow));
   }
 
   logout(): void {

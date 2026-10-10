@@ -4,35 +4,11 @@
   padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 1rem);
 }
 
-@media (min-width: 768px) {
-  .dashboard {
-    padding-bottom: 2rem;
-  }
-
-  .dashboard__shell {
-    max-width: none;
-    padding: 1.25rem 1.5rem 0;
-  }
-
-  .dashboard__body {
-    max-width: 1000px;
-    margin-inline: auto;
-    width: 100%;
-  }
-}
-
+/* Base mobile : doit précéder les surcharges >=768px (même spécificité). */
 .dashboard__shell {
   max-width: var(--page-max-width);
   margin: 0 auto;
   min-height: 100dvh;
-}
-
-@media (min-width: 1024px) {
-  .dashboard__shell {
-    max-width: none;
-    min-height: 100dvh;
-    padding: 1.5rem 2rem 0;
-  }
 }
 
 .dashboard__header {
@@ -48,6 +24,33 @@
   justify-content: space-between;
   gap: 1rem;
   min-height: 72px;
+}
+
+.dashboard__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-blanc-18);
+  color: var(--color-papier);
+  transition: background 0.2s;
+}
+
+.dashboard__icon-btn:hover {
+  background: var(--color-blanc-30);
+}
+
+.dashboard__icon-btn:focus-visible {
+  outline: 3px solid var(--color-or-60);
+  outline-offset: 2px;
 }
 
 .dashboard__greeting {
@@ -73,19 +76,6 @@
   gap: 1.5rem;
   padding: 1.25rem;
   margin-top: -1.75rem;
-}
-
-@media (min-width: 1024px) {
-  .dashboard__body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 1.5rem;
-    padding: 0;
-    margin-top: -2rem;
-    max-width: 1200px;
-    margin-inline: auto;
-    width: 100%;
-  }
 }
 
 .dashboard__actions,
@@ -126,23 +116,16 @@
   gap: 0.75rem;
 }
 
-@media (min-width: 1024px) {
-  .dashboard__balance {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .dashboard__actions {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .dashboard__verse {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .dashboard__recent {
-    grid-column: 2;
-    grid-row: 2;
-  }
+.dashboard__item-link {
+  display: block;
+  border-radius: 14px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.dashboard__item-link:focus-visible {
+  outline: 3px solid var(--color-or-60);
+  outline-offset: 2px;
 }
 
 .dashboard__empty {
@@ -150,6 +133,19 @@
   text-align: center;
   color: var(--color-text-secondary);
   font-size: var(--text-sm);
+}
+
+/* Tablette + desktop (>=768px) : sidebar à gauche et une seule colonne centrée,
+   bandeau compris — même rendu quelle que soit la largeur de l'écran. */
+@media (min-width: 768px) {
+  .dashboard {
+    padding: 1rem 1.5rem 2rem;
+  }
+
+  .dashboard__shell {
+    max-width: 760px;
+    min-height: 0;
+  }
 }
 
 /* Apparition en fondu (subtile) */

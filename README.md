@@ -9,12 +9,12 @@ PWA de paiement d'offrandes pour l'église (dîmes, offrandes du culte, prémice
   - Base de données H2 en mémoire (dev, PostgreSQL-ready), console H2 sur `/h2-console`
   - Domaines : église/temples, membres, types d'offrandes, contributions, reçus, paiements
   - Authentification : login, register (rôles Membre/Admin/Trésorier/Pasteur)
-  - REST : `/api/auth`, `/api/member/**`, `/api/contribution/**`, `/api/temple/**`, `/api/user/**`
+  - REST : `/api/auth`, `/api/my/**` (don membre, reçu, profil, mot de passe), `/api/public/**` (don QR), `/api/admin/**`, `/api/temples/**`
 - **Frontend** : Angular 20 — `frontend/`
   - Standalone components, routing activé, guard d'authentification
   - **PWA** : `@angular/service-worker`, manifest + icônes, `ngsw-config.json`
   - Responsive : mobile (<768px, encadré 430px + bottom-nav), tablette/desktop (≥768px, sidebar + grille plein écran), auth en split image/formulaire
-  - Pages : welcome (hero), login/register, dashboard membre (solde, actions rapides, verset, contributions récentes)
+  - Pages : welcome (hero), login/register, don public `/don`, espace membre (tableau de bord, contribution, historique + détail du reçu, profil)
 
 ## Démarrage
 
@@ -30,6 +30,7 @@ mvn spring-boot:run
 - Comptes seed (dev) : `admin@rsi.local / Admin@12345`, `membre@rsi.local / Membre@12345`, `tresorier@rsi.local / Tresorier@12345`, `pasteur@rsi.local / Pasteur@12345`
 - JWT : clé dev par défaut surchargée par la variable d'environnement `JWT_SECRET` ; expiration 2h
 - CORS : `CORS_ALLOWED_ORIGINS` (défaut http://localhost:4200)
+- QR codes : `QR_DONATION_URL` (QR du don affiché à l'église, défaut http://localhost:4200/don) et `QR_APP_URL` (QR « installer sur mobile » proposé après connexion sur ordinateur, défaut http://localhost:4200/login) — à régler sur l'URL publique HTTPS en production
 
 ### Frontend
 
@@ -51,8 +52,7 @@ npm start
 
 ## Feuille de route (à venir)
 
-- Gestion membres / temples (CRUD backend en cours, pages frontend "bientôt disponible")
-- Gestion des contributions + paiement simulé
+- Gestion membres / temples côté admin (CRUD backend en place, pages frontend à venir)
 - Historique + reçus (PDF + QR + email)
 - Dashboard Pastor / Admin
 - Intégration vrai agrégateur de moyens de paiement / génération QR

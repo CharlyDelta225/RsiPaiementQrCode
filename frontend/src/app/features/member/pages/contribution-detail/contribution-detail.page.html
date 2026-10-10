@@ -1,0 +1,73 @@
+<div class="member-page">
+  <header class="member-page__header">
+    <div class="member-page__header-inner">
+      <a class="member-page__back" routerLink="/member/contributions" aria-label="Retour à l’historique">
+        <app-icon name="arrow-back" [size]="20" />
+      </a>
+      <div>
+        <h1 class="member-page__title">Détail du reçu</h1>
+        @if (details(); as info) {
+          <p class="member-page__subtitle">{{ info.typeLabel }}</p>
+        }
+      </div>
+    </div>
+  </header>
+
+  <main class="member-page__body">
+    @switch (state()) {
+      @case ('loading') {
+        <p class="member-page__status" role="status">Chargement du reçu…</p>
+      }
+      @case ('error') {
+        <div class="member-page__error" role="alert">
+          <p>{{ errorMessage() ?? 'Impossible de charger ce reçu.' }}</p>
+          <button type="button" class="member-link" (click)="load()">Réessayer</button>
+        </div>
+      }
+      @default {
+        @if (details(); as info) {
+          <section class="member-card receipt">
+            <div class="receipt__amount-block">
+              <span class="receipt__badge" [class]="'receipt__badge--' + info.status">
+                {{ info.statusLabel }}
+              </span>
+              <p class="receipt__amount">{{ info.amountLabel }}</p>
+              <p class="receipt__type">{{ info.typeLabel }}</p>
+            </div>
+
+            <dl class="receipt__list">
+              <div class="receipt__row">
+                <dt>Référence</dt>
+                <dd class="receipt__code">{{ info.reference }}</dd>
+              </div>
+              @if (info.receiptNumber) {
+                <div class="receipt__row">
+                  <dt>N° de reçu</dt>
+                  <dd class="receipt__code">{{ info.receiptNumber }}</dd>
+                </div>
+              }
+              <div class="receipt__row">
+                <dt>Mode de paiement</dt>
+                <dd>{{ info.providerLabel }}</dd>
+              </div>
+              <div class="receipt__row">
+                <dt>Date</dt>
+                <dd>{{ info.dateLabel }}</dd>
+              </div>
+            </dl>
+
+            @if (info.simulated) {
+              <p class="receipt__note">
+                Paiement enregistré en mode simulation : aucun débit n’a été effectué.
+              </p>
+            }
+          </section>
+
+          @if (info.blessing; as verse) {
+            <app-bible-verse-card [text]="verse.text" [reference]="verse.reference" />
+          }
+        }
+      }
+    }
+  </main>
+</div>

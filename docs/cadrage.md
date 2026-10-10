@@ -33,8 +33,8 @@ PWA de paiement d'offrandes pour l'église : dîmes, offrandes du culte, prémic
 | 2 | Modèle de données (PostgreSQL-ready, H2 en dev) | ✅ |
 | 3 | Authentification / rôles (Spring Security + JWT) | ✅ |
 | 4 | Gestion des membres / temples | 🔄 (API en place, UI "bientôt disponible") |
-| 5 | Gestion des contributions | 🔄 (API en place, UI "bientôt disponible") |
-| 6 | Paiement simulé | |
+| 5 | Gestion des contributions | 🔄 (espace membre ✅ : contribution, historique, reçu, profil — UI admin à venir) |
+| 6 | Paiement simulé | ✅ (`SimulatedPaymentProcessor`, partagé don public / membre) |
 | 7 | Historique + reçus (PDF + QR + email) | |
 | 8 | Dashboard Pastor / Admin | |
 | 9 | Intégration vrai prestataire de paiement | |

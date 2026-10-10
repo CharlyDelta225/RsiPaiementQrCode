@@ -1,14 +1,26 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, afterNextRender, computed, inject, viewChild } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AppIconComponent } from '../../shared/components/app-icon/app-icon';
 import { ChurchLogoComponent } from '../../shared/components/church-logo/church-logo';
+import { AppInstallDialogComponent } from '../../shared/components/app-install-dialog/app-install-dialog';
+import { LogoutDialogComponent } from '../../shared/components/logout-dialog/logout-dialog';
 import { MemberBottomNavComponent } from '../../shared/components/member-bottom-nav/member-bottom-nav';
+import { roleLabel, userInitials } from '../../core/models/user.model';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-member-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, AppIconComponent, ChurchLogoComponent, MemberBottomNavComponent],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    AppIconComponent,
+    AppInstallDialogComponent,
+    ChurchLogoComponent,
+    LogoutDialogComponent,
+    MemberBottomNavComponent,
+  ],
   template: `
     <div class="member-layout">
       <aside class="member-sidebar">
@@ -38,20 +50,35 @@ import { AuthService } from '../../core/services/auth.service';
           </a>
           <a
             class="member-sidebar__link"
-            routerLink="/member/profile"
+            routerLink="/member/settings"
             routerLinkActive="member-sidebar__link--active"
-            [routerLinkActiveOptions]="{ exact: true }"
           >
-            <app-icon name="person" [size]="20" />
-            <span>Profil</span>
+            <app-icon name="settings" [size]="20" />
+            <span>Réglages</span>
           </a>
         </nav>
 
-        <button class="member-sidebar__logout" type="button" (click)="logout()">
-          <app-icon name="logout" [size]="20" />
-          <span>Se déconnecter</span>
-        </button>
+        @if (account(); as me) {
+          <button
+            class="member-sidebar__account"
+            type="button"
+            aria-haspopup="dialog"
+            [attr.aria-label]="'Connecté en tant que ' + me.name + ' — se déconnecter'"
+            [title]="me.details"
+            (click)="logoutDialog.open()"
+          >
+            <span class="member-sidebar__avatar" aria-hidden="true">{{ me.initials }}</span>
+            <span class="member-sidebar__who">
+              <span class="member-sidebar__who-name">{{ me.name }}</span>
+              <span class="member-sidebar__who-role">{{ me.profile }}</span>
+            </span>
+            <app-icon name="logout" [size]="18" />
+          </button>
+        }
       </aside>
+
+      <app-logout-dialog #logoutDialog />
+      <app-install-dialog />
 
       <main class="member-layout__main">
         <router-outlet />
@@ -130,21 +157,67 @@ import { AuthService } from '../../core/services/auth.service';
         background: var(--color-primary-soft);
         color: var(--color-primary);
       }
-      .member-sidebar__logout {
+      .member-sidebar__account {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        padding: 0.625rem 0.75rem;
-        border: 0;
-        border-radius: 12px;
-        background: transparent;
-        color: var(--color-red);
-        font-weight: 600;
-        font-size: var(--text-sm);
-        transition: background 0.2s;
+        width: 100%;
+        padding: 0.625rem;
+        border: 1px solid var(--color-bordure);
+        border-radius: 14px;
+        background: var(--color-creme);
+        text-align: left;
+        transition: background 0.2s, border-color 0.2s;
       }
-      .member-sidebar__logout:hover {
-        background: var(--color-red-soft);
+      .member-sidebar__account:hover {
+        border-color: var(--color-or-45);
+        background: var(--color-or-soft);
+      }
+      .member-sidebar__account:focus-visible {
+        outline: 3px solid var(--color-or-60);
+        outline-offset: 2px;
+      }
+      .member-sidebar__account > app-icon {
+        flex-shrink: 0;
+        color: var(--color-text-secondary);
+      }
+      .member-sidebar__account:hover > app-icon {
+        color: var(--color-red);
+      }
+      .member-sidebar__avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: var(--text-sm);
+        font-weight: 800;
+        color: var(--color-papier);
+        background: var(--color-bordeaux);
+        box-shadow: 0 0 0 2px var(--color-papier), 0 0 0 4px var(--color-or);
+      }
+      .member-sidebar__who {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+      }
+      .member-sidebar__who-name {
+        font-size: var(--text-sm);
+        font-weight: 700;
+        color: var(--color-bordeaux-deep);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .member-sidebar__who-role {
+        font-size: var(--text-xs);
+        color: var(--color-text-secondary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .member-layout__main {
         flex: 1;
@@ -158,10 +231,25 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class MemberLayoutComponent {
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
+  private readonly installDialog = viewChild.required(AppInstallDialogComponent);
 
-  protected logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/welcome']);
+  constructor() {
+    // Juste après la connexion : inviter à installer l'application sur mobile.
+    afterNextRender(() => this.installDialog().openIfDue());
   }
+
+  /** Carte « connecté en tant que » en bas de la sidebar : initiales, nom, profil. */
+  protected readonly account = computed(() => {
+    const user = this.authService.currentUser();
+    if (!user) {
+      return null;
+    }
+    const role = roleLabel(user);
+    return {
+      initials: userInitials(user),
+      name: user.fullName,
+      profile: role,
+      details: [user.fullName, role, user.templeName].filter(Boolean).join(' · '),
+    };
+  });
 }

@@ -1,0 +1,61 @@
+<div class="member-page">
+  <header class="member-page__header">
+    <div class="member-page__header-inner">
+      <a class="member-page__back" routerLink="/member/settings" aria-label="Retour aux réglages">
+        <app-icon name="arrow-back" [size]="20" />
+      </a>
+      <h1 class="member-page__title">Informations personnelles</h1>
+    </div>
+  </header>
+
+  <main class="member-page__body">
+    @if (user(); as current) {
+      <section class="member-card profile-identity">
+        <span class="profile-identity__avatar" aria-hidden="true">{{ initials() }}</span>
+        <div class="profile-identity__text">
+          <p class="profile-identity__name">{{ current.fullName }}</p>
+          <p class="profile-identity__meta">{{ current.email }}</p>
+          <p class="profile-identity__meta">
+            {{ roleLabel() }}@if (current.templeName) { · {{ current.templeName }} }
+          </p>
+        </div>
+      </section>
+
+      <section class="member-card" aria-labelledby="profile-info-title">
+        <h2 class="member-card__title" id="profile-info-title">Modifier mes informations</h2>
+        <form class="profile-form" [formGroup]="profileForm" (ngSubmit)="saveProfile()" novalidate>
+          <app-auth-input
+            label="Prénom"
+            autocomplete="given-name"
+            [control]="profileForm.controls.firstName"
+          />
+          <app-auth-input
+            label="Nom"
+            autocomplete="family-name"
+            [control]="profileForm.controls.lastName"
+          />
+          <app-auth-input
+            label="Téléphone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            [control]="profileForm.controls.phone"
+          />
+          @if (profileError(); as message) {
+            <div class="member-page__error" role="alert"><p>{{ message }}</p></div>
+          }
+          @if (profileMessage(); as message) {
+            <p class="member-page__success" role="status">{{ message }}</p>
+          }
+          <app-primary-button
+            type="submit"
+            [loading]="profileSaving()"
+            [disabled]="profileForm.pristine"
+          >
+            Enregistrer
+          </app-primary-button>
+        </form>
+      </section>
+    }
+  </main>
+</div>

@@ -203,6 +203,39 @@ describe('DonationFlowService', () => {
     expect(service.receipt()?.paymentProvider).toBe('MOOV_MONEY');
   });
 
+  it('en mode membre, paie en un seul appel sur /my/donations', () => {
+    service.enter('member');
+    prepareCompleteDonation();
+
+    service.submit().subscribe();
+
+    const request = http.expectOne(`${API_BASE_URL}/my/donations`);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      offeringTypeId: 3,
+      amount: 5000,
+      paymentProvider: 'MOOV_MONEY',
+    });
+    request.flush(RECEIPT_VIEW, { status: 201, statusText: 'Created' });
+    expect(service.receipt()?.receiptNumber).toBe('REC-20260925-0007');
+  });
+
+  it('repart de zéro en changeant de mode ou après un don abouti', () => {
+    prepareCompleteDonation();
+    service.enter('public');
+    expect(service.offeringTypeId()).toBe(3);
+
+    service.enter('member');
+    expect(service.mode()).toBe('member');
+    expect(service.offeringTypeId()).toBeNull();
+
+    service.selectOfferingType(3);
+    service.receipt.set({} as never);
+    service.enter('member');
+    expect(service.offeringTypeId()).toBeNull();
+    expect(service.receipt()).toBeNull();
+  });
+
   it('affiche le message du backend et permet un nouvel essai après un 400', () => {
     prepareCompleteDonation();
 

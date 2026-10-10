@@ -3,7 +3,7 @@
     <header class="don-flow__header">
       <button type="button" class="don-flow__back" (click)="back()">
         <app-icon name="arrow-back" [size]="18" />
-        <span>{{ step() === 1 ? 'QR code' : 'Précédent' }}</span>
+        <span>{{ step() === 1 ? paths.homeLabel : 'Précédent' }}</span>
       </button>
 
       <div class="don-flow__progress">
@@ -152,7 +152,7 @@
       }
     }
 
-    <footer class="don-flow__footer">
+    <footer class="don-flow__footer" #footer>
       @if (submitting()) {
         <p class="don-flow__status" role="status">
           Enregistrement de votre don et confirmation du paiement…

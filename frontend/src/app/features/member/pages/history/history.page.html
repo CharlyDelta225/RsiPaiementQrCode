@@ -1,0 +1,89 @@
+<div class="member-page">
+  <header class="member-page__header">
+    <div class="member-page__header-inner">
+      <a class="member-page__back" routerLink="/member/dashboard" aria-label="Retour à l’accueil">
+        <app-icon name="arrow-back" [size]="20" />
+      </a>
+      <div>
+        <h1 class="member-page__title">Mon historique</h1>
+        <p class="member-page__subtitle">Toutes vos contributions et leurs reçus</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="member-page__body">
+    @if (summary(); as totals) {
+      <section class="history-summary" aria-label="Résumé">
+        <div class="history-summary__item history-summary__item--main">
+          <span class="history-summary__label">En {{ currentYear }}</span>
+          <span class="history-summary__value">{{ formatFcfa(totals.yearTotal) }}</span>
+        </div>
+        <div class="history-summary__item">
+          <span class="history-summary__label">Ce mois-ci</span>
+          <span class="history-summary__value">{{ formatFcfa(totals.monthTotal) }}</span>
+        </div>
+        <div class="history-summary__item">
+          <span class="history-summary__label">Dons payés</span>
+          <span class="history-summary__value">{{ totals.paidCount }}</span>
+        </div>
+      </section>
+    }
+
+    @switch (state()) {
+      @case ('loading') {
+        <p class="member-page__status" role="status">Chargement de votre historique…</p>
+      }
+      @case ('error') {
+        <div class="member-page__error" role="alert">
+          <p>Impossible de charger votre historique. Vérifiez votre connexion.</p>
+          <button type="button" class="member-link" (click)="load()">Réessayer</button>
+        </div>
+      }
+      @default {
+        @if (contributions().length === 0) {
+          <section class="member-card history-empty">
+            <app-icon name="heart" [size]="36" />
+            <p>Vous n’avez pas encore fait de contribution.</p>
+            <a class="history-empty__cta" routerLink="/member/contribution">
+              Faire une contribution
+            </a>
+          </section>
+        } @else {
+          @if (types().length > 2) {
+            <div class="history-filters" role="group" aria-label="Filtrer par type d’offrande">
+              @for (type of types(); track type) {
+                <button
+                  type="button"
+                  class="history-filters__chip"
+                  [class.history-filters__chip--active]="type === selectedType()"
+                  [attr.aria-pressed]="type === selectedType()"
+                  (click)="selectType(type)"
+                >
+                  {{ type }}
+                </button>
+              }
+            </div>
+          }
+
+          @for (group of groups(); track group.key) {
+            <section class="history-group" [attr.aria-label]="group.label">
+              <div class="history-group__head">
+                <h2 class="history-group__title">{{ group.label }}</h2>
+                <span class="history-group__total">{{ formatFcfa(group.total) }}</span>
+              </div>
+              <ul class="history-group__list">
+                @for (item of group.items; track item.id) {
+                  <li>
+                    <a class="history-group__link" [routerLink]="['/member/contributions', item.id]">
+                      <app-contribution-item [contribution]="item" />
+                    </a>
+                  </li>
+                }
+              </ul>
+            </section>
+          }
+        }
+      }
+    }
+  </main>
+</div>

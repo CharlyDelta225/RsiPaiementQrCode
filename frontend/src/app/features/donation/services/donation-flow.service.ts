@@ -15,6 +15,7 @@ import { OfferingType } from '../../../core/models/offering-type.model';
 import { PublicPaymentProvider } from '../../../core/models/payment-provider.model';
 import { rethrow } from '../../../core/utils/api-error';
 import {
+  DonationMode,
   DonationStep,
   PublicContributionPayload,
   parseAmountInput,
@@ -30,6 +31,7 @@ const GENERIC_DONATION_ERROR = 'Votre don n’a pas pu être enregistré. Veuill
 export class DonationFlowService {
   private readonly http = inject(HttpClient);
 
+  readonly mode = signal<DonationMode>('public');
   readonly step = signal<DonationStep>(1);
   readonly offeringTypes = signal<OfferingType[]>([]);
   readonly offeringTypesState = signal<OfferingTypesState>('loading');
@@ -66,6 +68,14 @@ export class DonationFlowService {
     }
     return { offeringTypeId, amount: Number(amount.toFixed(2)), paymentProvider };
   });
+
+  /** Entrée dans le parcours : repart de zéro si on change de mode ou après un don abouti. */
+  enter(mode: DonationMode): void {
+    if (this.mode() !== mode || this.receipt() !== null) {
+      this.reset();
+      this.mode.set(mode);
+    }
+  }
 
   loadOfferingTypes(force = false): void {
     if (!force && this.offeringTypesState() === 'ready') {
@@ -140,24 +150,29 @@ export class DonationFlowService {
     }
     this.errorMessage.set(null);
     this.submitting.set(true);
-    return this.http
-      .post<PublicContributionCreatedView>(`${API_BASE_URL}/public/contributions`, payload)
-      .pipe(
-        switchMap((created) =>
-          this.http.post<PublicContributionView>(
-            `${API_BASE_URL}/public/contributions/${created.contributionId}/simulate-payment`,
-            {},
-          ),
-        ),
-        map(toDonationReceipt),
-        tap((receipt) => this.receipt.set(receipt)),
-        catchError((error: unknown) => {
-          const message = donationErrorMessage(error);
-          this.errorMessage.set(message);
-          return throwError(() => new Error(message));
-        }),
-        finalize(() => this.submitting.set(false)),
-      );
+    const paid$ =
+      this.mode() === 'member'
+        ? this.http.post<PublicContributionView>(`${API_BASE_URL}/my/donations`, payload)
+        : this.http
+            .post<PublicContributionCreatedView>(`${API_BASE_URL}/public/contributions`, payload)
+            .pipe(
+              switchMap((created) =>
+                this.http.post<PublicContributionView>(
+                  `${API_BASE_URL}/public/contributions/${created.contributionId}/simulate-payment`,
+                  {},
+                ),
+              ),
+            );
+    return paid$.pipe(
+      map(toDonationReceipt),
+      tap((receipt) => this.receipt.set(receipt)),
+      catchError((error: unknown) => {
+        const message = donationErrorMessage(error);
+        this.errorMessage.set(message);
+        return throwError(() => new Error(message));
+      }),
+      finalize(() => this.submitting.set(false)),
+    );
   }
 
   reset(): void {

@@ -25,6 +25,14 @@ export class InstallPromptService {
     () => this.deferredPrompt() !== null && !this.promptUsed() && !this.dismissed() && !this.appInstalled(),
   );
 
+  /**
+   * Installation demandée explicitement (ex. Réglages) : ignore un ancien refus du bandeau,
+   * puisque c'est l'utilisateur qui en prend l'initiative.
+   */
+  readonly canInstallOnDemand = computed(
+    () => this.deferredPrompt() !== null && !this.promptUsed() && !this.appInstalled(),
+  );
+
   private listening = false;
 
   /**
@@ -51,10 +59,13 @@ export class InstallPromptService {
     });
   }
 
-  /** Affiche le dialogue natif. Une seule tentative : le refus est memorise definitivement. */
-  async prompt(): Promise<'accepted' | 'dismissed' | 'unavailable'> {
+  /**
+   * Affiche le dialogue natif. Une seule tentative : le refus est memorise definitivement.
+   * `onDemand` : appel explicite de l'utilisateur, autorise malgre un refus anterieur.
+   */
+  async prompt(onDemand = false): Promise<'accepted' | 'dismissed' | 'unavailable'> {
     const deferred = this.deferredPrompt();
-    if (!deferred || !this.canPrompt()) {
+    if (!deferred || !(onDemand ? this.canInstallOnDemand() : this.canPrompt())) {
       return 'unavailable';
     }
     this.promptUsed.set(true);

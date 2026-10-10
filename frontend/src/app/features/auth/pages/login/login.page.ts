@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AppInstallHintService } from '../../../../core/services/app-install-hint.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon';
 import { AuthInputComponent } from '../../../../shared/components/auth-input/auth-input';
@@ -42,6 +43,7 @@ export class LoginPage {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
+    private readonly installHint: AppInstallHintService,
   ) {}
 
   protected onForgotClick(event: Event): void {
@@ -60,6 +62,7 @@ export class LoginPage {
 
     this.authService.login(identifier, password).subscribe({
       next: () => {
+        this.installHint.armAfterLogin();
         this.router.navigate(['/member/dashboard']);
       },
       error: (err: Error) => {

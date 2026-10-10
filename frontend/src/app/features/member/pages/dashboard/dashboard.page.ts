@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { MemberService } from '../../../../core/services/member.service';
 import { Contribution } from '../../../../core/models/contribution.model';
+import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon';
+import { AppInstallBannerComponent } from '../../../../shared/components/app-install-banner/app-install-banner';
 import { BalanceCardComponent } from '../../../../shared/components/balance-card/balance-card';
 import { BibleVerseCardComponent } from '../../../../shared/components/bible-verse-card/bible-verse-card';
 import { ContributionItemComponent } from '../../../../shared/components/contribution-item/contribution-item';
@@ -14,6 +16,8 @@ import { QuickActionComponent } from '../../../../shared/components/quick-action
   standalone: true,
   imports: [
     RouterLink,
+    AppIconComponent,
+    AppInstallBannerComponent,
     BalanceCardComponent,
     BibleVerseCardComponent,
     ContributionItemComponent,
@@ -28,19 +32,24 @@ export class DashboardPage {
   private readonly memberService = inject(MemberService);
 
   protected readonly user = this.authService.currentUser;
-  protected readonly balance = this.memberService.balance;
+  protected readonly yearTotal = signal(0);
+  protected readonly currentYear = new Date().getFullYear();
   protected readonly contributions = signal<Contribution[]>([]);
   protected readonly loading = signal(true);
 
   constructor() {
     this.memberService.getDashboardData().subscribe({
-      next: (data) => this.contributions.set(data.recentContributions),
-      complete: () => this.loading.set(false),
+      next: (data) => {
+        this.contributions.set(data.recentContributions);
+        this.yearTotal.set(data.yearTotal);
+        this.loading.set(false);
+      },
+      error: () => this.loading.set(false),
     });
   }
 
   protected getFirstName(): string {
     const user = this.user();
-    return user ? user.fullName.split(' ')[0] : 'Jean';
+    return user?.firstName || user?.fullName.split(' ')[0] || '';
   }
 }

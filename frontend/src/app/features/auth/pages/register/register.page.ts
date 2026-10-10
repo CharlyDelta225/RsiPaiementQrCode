@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
+import { AppInstallHintService } from '../../../../core/services/app-install-hint.service';
 import { Temple } from '../../../../core/models/temple.model';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TempleService } from '../../../../core/services/temple.service';
@@ -36,6 +37,7 @@ export class RegisterPage {
   private readonly authService = inject(AuthService);
   private readonly templeService = inject(TempleService);
   private readonly router = inject(Router);
+  private readonly installHint = inject(AppInstallHintService);
 
   protected readonly form = new FormGroup(
     {
@@ -180,6 +182,7 @@ export class RegisterPage {
       })
       .subscribe({
         next: () => {
+          this.installHint.armAfterLogin();
           this.router.navigate(['/member/dashboard']);
         },
         error: (err: Error) => {

@@ -2,6 +2,31 @@ import { PublicPaymentProvider } from '../../../core/models/payment-provider.mod
 
 export type DonationStep = 1 | 2 | 3;
 
+/** `public` : visiteur via le QR code ; `member` : membre connecté (don rattaché à son compte). */
+export type DonationMode = 'public' | 'member';
+
+export interface DonationPaths {
+  /** Écran d'origine (bouton retour à l'étape 1). */
+  home: string;
+  homeLabel: string;
+  flow: string;
+  confirmation: string;
+}
+
+export const DONATION_PATHS: Record<DonationMode, DonationPaths> = {
+  public: { home: '/don', homeLabel: 'QR code', flow: '/don/type', confirmation: '/don/confirmation' },
+  member: {
+    home: '/member/dashboard',
+    homeLabel: 'Accueil',
+    flow: '/member/contribution',
+    confirmation: '/member/contribution/confirmation',
+  },
+};
+
+export function donationModeFrom(data: Record<string, unknown>): DonationMode {
+  return data['donationMode'] === 'member' ? 'member' : 'public';
+}
+
 export interface PaymentProviderOption {
   id: PublicPaymentProvider;
   label: string;

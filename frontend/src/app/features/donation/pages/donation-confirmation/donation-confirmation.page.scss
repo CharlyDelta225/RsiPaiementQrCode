@@ -88,3 +88,9 @@
   outline: 3px solid var(--color-or-60);
   outline-offset: 2px;
 }
+
+.don-confirm__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

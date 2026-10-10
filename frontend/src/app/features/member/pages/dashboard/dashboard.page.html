@@ -6,14 +6,21 @@
           <p class="dashboard__hello">Bonjour, {{ getFirstName() }} 👋</p>
           <p class="dashboard__subtext">Que Dieu bénisse votre générosité !</p>
         </div>
-        <app-notification-button />
+        <div class="dashboard__header-actions">
+          <a class="dashboard__icon-btn" routerLink="/member/settings" aria-label="Réglages">
+            <app-icon name="settings" [size]="22" />
+          </a>
+          <app-notification-button />
+        </div>
       </div>
     </header>
 
     <main class="dashboard__body">
-      <section class="dashboard__balance" aria-label="Solde de mon compte">
-        <app-balance-card [amount]="balance().amount" />
+      <section class="dashboard__balance" aria-label="Mes dons de l’année">
+        <app-balance-card [label]="'Mes dons en ' + currentYear" [amount]="yearTotal()" />
       </section>
+
+      <app-install-banner />
 
       <section class="dashboard__actions" aria-label="Actions rapides">
         <div class="dashboard__quick-actions">
@@ -32,7 +39,7 @@
           <app-quick-action
             icon="person"
             label="Mon profil"
-            route="/member/profile"
+            route="/member/settings/profile"
             tone="info"
           />
         </div>
@@ -57,7 +64,9 @@
             <p class="dashboard__empty">Aucune contribution pour le moment.</p>
           } @else {
             @for (item of contributions(); track item.id) {
-              <app-contribution-item [contribution]="item" />
+              <a class="dashboard__item-link" [routerLink]="['/member/contributions', item.id]">
+                <app-contribution-item [contribution]="item" />
+              </a>
             }
           }
         </div>

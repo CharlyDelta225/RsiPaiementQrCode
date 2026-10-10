@@ -2,8 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map } from 'rxjs';
 import { API_BASE_URL } from '../config/api.config';
-import { ContributionView, toContribution } from '../models/api.models';
-import { Contribution, ContributionStatus } from '../models/contribution.model';
+import {
+  ContributionView,
+  PublicContributionView,
+  toContribution,
+  toDonationReceipt,
+} from '../models/api.models';
+import { Contribution, ContributionStatus, DonationReceipt } from '../models/contribution.model';
 import { rethrow } from '../utils/api-error';
 
 export interface AdminContributionQuery {
@@ -18,6 +23,13 @@ export interface AdminContributionQuery {
 export interface ContributionsSummary {
   total: number;
   monthTotal: number;
+  yearTotal: number;
+  paidCount: number;
+}
+
+export interface MyContributions {
+  contributions: Contribution[];
+  summary: ContributionsSummary;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -34,26 +46,16 @@ export class ContributionService {
       .pipe(map(toContributionList), catchError(rethrow));
   }
 
-  getRecentContributions(): Observable<Contribution[]> {
-    return this.getMyContributions().pipe(map((contributions) => contributions.slice(0, 5)));
+  getMyContributionsWithSummary(): Observable<MyContributions> {
+    return this.fetchMyViews().pipe(
+      map((views) => ({ contributions: toContributionList(views), summary: summarize(views) })),
+    );
   }
 
-  getContributionsSummary(): Observable<ContributionsSummary> {
-    return this.fetchMyViews().pipe(
-      map((views) => {
-        const paid = views.filter((view) => view.status === 'PAID');
-        const startOfMonth = new Date();
-        startOfMonth.setDate(1);
-        startOfMonth.setHours(0, 0, 0, 0);
-        const monthTotal = paid
-          .filter((view) => new Date(view.paidAt ?? view.createdAt) >= startOfMonth)
-          .reduce((sum, view) => sum + view.amount, 0);
-        return {
-          total: paid.reduce((sum, view) => sum + view.amount, 0),
-          monthTotal,
-        };
-      }),
-    );
+  getMyContributionDetail(id: number): Observable<DonationReceipt> {
+    return this.http
+      .get<PublicContributionView>(`${API_BASE_URL}/my/contributions/${id}`)
+      .pipe(map(toDonationReceipt), catchError(rethrow));
   }
 
   private fetchMyViews(): Observable<ContributionView[]> {
@@ -65,6 +67,23 @@ export class ContributionService {
 
 function toContributionList(views: ContributionView[]): Contribution[] {
   return views.map(toContribution);
+}
+
+function summarize(views: ContributionView[]): ContributionsSummary {
+  const paid = views.filter((view) => view.status === 'PAID');
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const sumSince = (since: Date) =>
+    paid
+      .filter((view) => new Date(view.paidAt ?? view.createdAt) >= since)
+      .reduce((sum, view) => sum + view.amount, 0);
+  return {
+    total: paid.reduce((sum, view) => sum + view.amount, 0),
+    monthTotal: sumSince(startOfMonth),
+    yearTotal: sumSince(startOfYear),
+    paidCount: paid.length,
+  };
 }
 
 function toParams(query: AdminContributionQuery): HttpParams {

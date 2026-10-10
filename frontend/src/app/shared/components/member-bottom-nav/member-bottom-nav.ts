@@ -30,13 +30,12 @@ import { AppIconComponent } from '../app-icon/app-icon';
       </a>
       <a
         class="nav__item"
-        routerLink="/member/profile"
+        routerLink="/member/settings"
         routerLinkActive="nav__item--active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        aria-label="Profil"
+        aria-label="Réglages"
       >
-        <app-icon name="person" [size]="22" />
-        <span>Profil</span>
+        <app-icon name="settings" [size]="22" />
+        <span>Réglages</span>
       </a>
     </nav>
   `,

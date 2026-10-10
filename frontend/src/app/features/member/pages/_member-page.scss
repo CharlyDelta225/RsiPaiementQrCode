@@ -1,0 +1,134 @@
+// Gabarit commun des pages de l'espace membre (historique, détail, profil) :
+// bandeau bordeaux + contenu qui le chevauche, comme le tableau de bord.
+
+.member-page {
+  min-height: 100dvh;
+  background: var(--color-creme);
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 1rem);
+}
+
+.member-page__header {
+  background: var(--color-bordeaux);
+  border-radius: 0 0 24px 24px;
+  padding: calc(env(safe-area-inset-top) + 1rem) 1.25rem 2.75rem;
+  color: var(--color-papier);
+}
+
+.member-page__header-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+}
+
+.member-page__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-blanc-12);
+  color: var(--color-papier);
+  text-decoration: none;
+}
+
+.member-page__back:focus-visible {
+  outline: 3px solid var(--color-or-60);
+  outline-offset: 2px;
+}
+
+.member-page__title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.member-page__subtitle {
+  margin: 0.125rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-blanc-85);
+}
+
+.member-page__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: var(--page-max-width);
+  margin: -1.75rem auto 0;
+  padding: 0 1.25rem;
+}
+
+.member-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--color-papier);
+  border: 1px solid var(--color-or-30);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.member-card__title {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-bordeaux);
+}
+
+.member-page__status {
+  padding: 1.5rem 0;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.member-page__error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.875rem;
+  font-size: var(--text-sm);
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+  border-radius: var(--radius-sm);
+}
+
+.member-page__success {
+  padding: 0.75rem 0.875rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-success);
+  background: var(--color-success-soft);
+  border-radius: var(--radius-sm);
+}
+
+.member-link {
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-bordeaux);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+}
+
+/* Tablette + desktop : une seule colonne centrée de 760px, bandeau compris,
+   identique au tableau de bord. */
+@media (min-width: 768px) {
+  .member-page {
+    max-width: calc(760px + 3rem);
+    margin-inline: auto;
+    padding: 1rem 1.5rem 2rem;
+  }
+
+  .member-page__header-inner,
+  .member-page__body {
+    max-width: none;
+  }
+}

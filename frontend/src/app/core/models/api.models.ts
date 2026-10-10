@@ -75,6 +75,17 @@ export interface ContributionView {
   createdAt: string;
 }
 
+export interface ProfileUpdateRequest {
+  firstName: string;
+  lastName: string;
+  phone: string;
+}
+
+export interface PasswordChangeRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export interface PublicContributionCreatedView {
   contributionId: number;
   reference: string;
@@ -114,8 +125,11 @@ export function toUser(view: UserView): User {
   return {
     id: view.id,
     fullName: `${view.firstName} ${view.lastName}`.trim(),
+    firstName: view.firstName,
+    lastName: view.lastName,
     email: view.email,
     phone: view.phone,
+    templeName: view.templeName,
     roles: [view.role],
   };
 }
@@ -148,6 +162,7 @@ export function toContribution(view: ContributionView): Contribution {
     type: view.offeringTypeLabel,
     amount: view.amount,
     date: DATE_FORMATTER.format(new Date(view.paidAt ?? view.createdAt)),
+    isoDate: view.paidAt ?? view.createdAt,
     temple: view.templeName ?? 'Temple inconnu',
     status: view.status,
   };

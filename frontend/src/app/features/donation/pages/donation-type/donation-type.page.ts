@@ -1,13 +1,26 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  Injector,
+  OnInit,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  untracked,
+  viewChild,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { formatFcfa } from '../../../../core/utils/format';
 import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon';
 import { PrimaryButtonComponent } from '../../../../shared/components/primary-button/primary-button';
 import { PublicPaymentProvider } from '../../../../core/models/payment-provider.model';
 import { TypeCardComponent } from '../../components/type-card/type-card';
 import {
+  DONATION_PATHS,
   PAYMENT_PROVIDERS,
   QUICK_AMOUNTS,
+  donationModeFrom,
   providerLabel,
 } from '../../models/donation.model';
 import { DonationFlowService } from '../../services/donation-flow.service';
@@ -24,6 +37,10 @@ type StepLabel = 'Type d’offrande' | 'Montant' | 'Mode de paiement';
 export class DonationTypePage implements OnInit {
   private readonly flow = inject(DonationFlowService);
   private readonly router = inject(Router);
+  private readonly mode = donationModeFrom(inject(ActivatedRoute).snapshot.data);
+  protected readonly paths = DONATION_PATHS[this.mode];
+  private readonly injector = inject(Injector);
+  private readonly footer = viewChild<ElementRef<HTMLElement>>('footer');
 
   protected readonly totalSteps = 3;
   protected readonly step = this.flow.step;
@@ -89,7 +106,30 @@ export class DonationTypePage implements OnInit {
 
   protected readonly formatFcfa = formatFcfa;
 
+  constructor() {
+    // Le récapitulatif apparaît sous la liste des moyens de paiement : sur mobile il
+    // tombe hors écran. On amène récap + bouton « Confirmer » dans la vue.
+    effect(() => {
+      if (!this.recapVisible()) {
+        return;
+      }
+      untracked(() =>
+        afterNextRender(
+          () => {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            this.footer()?.nativeElement.scrollIntoView({
+              behavior: reduceMotion ? 'auto' : 'smooth',
+              block: 'end',
+            });
+          },
+          { injector: this.injector },
+        ),
+      );
+    });
+  }
+
   ngOnInit(): void {
+    this.flow.enter(this.mode);
     this.flow.loadOfferingTypes();
   }
 
@@ -148,7 +188,7 @@ export class DonationTypePage implements OnInit {
       return;
     }
     if (this.flow.step() === 1) {
-      this.router.navigate(['/don']);
+      this.router.navigate([this.paths.home]);
       return;
     }
     this.flow.previous();
@@ -156,7 +196,7 @@ export class DonationTypePage implements OnInit {
 
   private confirmDonation(): void {
     this.flow.submit().subscribe({
-      next: () => this.router.navigate(['/don/confirmation']),
+      next: () => this.router.navigate([this.paths.confirmation]),
       error: () => undefined,
     });
   }

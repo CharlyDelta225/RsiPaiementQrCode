@@ -1,0 +1,75 @@
+@use '../member-page';
+
+.receipt__amount-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--color-or-45);
+  text-align: center;
+}
+
+.receipt__badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+}
+
+.receipt__badge--PAID { background: var(--color-success-soft); color: var(--color-success); }
+.receipt__badge--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte); }
+.receipt__badge--FAILED { background: var(--color-red-soft); color: var(--color-red); }
+.receipt__badge--CANCELLED { background: var(--color-primary-soft); color: var(--color-text-secondary); }
+
+.receipt__amount {
+  margin: 0.25rem 0 0;
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--color-bordeaux-deep);
+}
+
+.receipt__type {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-bordeaux-light);
+}
+
+.receipt__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.receipt__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: var(--text-sm);
+}
+
+.receipt__row dt {
+  color: var(--color-text-secondary);
+}
+
+.receipt__row dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-bordeaux);
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.receipt__code {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: var(--text-xs);
+}
+
+.receipt__note {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}

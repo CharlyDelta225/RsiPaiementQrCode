@@ -1,0 +1,45 @@
+@use '../member-page';
+
+.profile-identity {
+  flex-direction: row;
+  align-items: center;
+}
+
+.profile-identity__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-bordeaux-deep);
+  background: var(--color-or-soft);
+  border: 2px solid var(--color-or);
+}
+
+.profile-identity__text {
+  min-width: 0;
+}
+
+.profile-identity__name {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-bordeaux-deep);
+}
+
+.profile-identity__meta {
+  margin: 0.125rem 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
