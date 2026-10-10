@@ -11,7 +11,11 @@ export type QuickActionTone = 'primary' | 'success' | 'info';
   imports: [RouterLink, AppIconComponent],
   template: `
     <a class="action" [routerLink]="route()">
-      <span class="action__icon" [class]="'action__icon--' + tone()">
+      <span
+        class="action__icon"
+        [class]="'action__icon--' + tone()"
+        [class.action__icon--featured]="featured()"
+      >
         <app-icon [name]="icon()" [size]="22" />
       </span>
       <span class="action__label">{{ label() }}</span>
@@ -53,6 +57,12 @@ export type QuickActionTone = 'primary' | 'success' | 'info';
       background: var(--color-primary-soft);
       color: var(--color-primary);
     }
+    .action__icon--featured {
+      box-shadow:
+        0 0 0 3px var(--color-papier),
+        0 0 0 5px var(--color-or),
+        0 4px 12px var(--color-bordeaux-30);
+    }
     .action__label {
       font-size: 0.6875rem;
       font-weight: 600;
@@ -66,4 +76,6 @@ export class QuickActionComponent {
   readonly label = input('');
   readonly route = input('/member/contribution');
   readonly tone = input<QuickActionTone>('primary');
+  /** Action principale de l'écran : anneau doré (mêmes couleurs que les autres). */
+  readonly featured = input(false);
 }

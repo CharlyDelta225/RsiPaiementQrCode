@@ -222,6 +222,13 @@ img {
         #{rgba(t.$bordeaux-deep, 0.85)} 100%
       ),
       url('/images/church-bg.jpg') center center / cover no-repeat;
+    background-image:
+      linear-gradient(
+        180deg,
+        #{rgba(t.$bordeaux, 0.3)} 0%,
+        #{rgba(t.$bordeaux-deep, 0.85)} 100%
+      ),
+      image-set(url('/images/church-bg.webp') type('image/webp'), url('/images/church-bg.jpg') type('image/jpeg'));
   }
 
   .auth-panel__content {

@@ -77,4 +77,14 @@ class AuthFlowTests {
         List<Temple> temples = templeRepository.findAll();
         return temples.isEmpty() ? null : temples.get(0);
     }
+
+    @Test
+    void honeypotFilledByBotIsRejected() throws Exception {
+        mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"robot@spam.test\",\"password\":\"Secret@123\",\"firstName\":\"Bot\","
+                                + "\"lastName\":\"Spam\",\"phone\":\"+22509999999\",\"templeId\":1,"
+                                + "\"website\":\"http://spam.example\"}"))
+                .andExpect(status().isBadRequest());
+    }
 }

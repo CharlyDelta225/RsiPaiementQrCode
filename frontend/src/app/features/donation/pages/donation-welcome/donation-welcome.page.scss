@@ -10,6 +10,8 @@
   position: absolute;
   inset: 0;
   background: url('/images/church-bg.jpg') center center / cover no-repeat;
+  // WebP (−25 %) pour les navigateurs qui le gèrent ; JPEG en secours.
+  background-image: image-set(url('/images/church-bg.webp') type('image/webp'), url('/images/church-bg.jpg') type('image/jpeg'));
 }
 
 .don-background::after {

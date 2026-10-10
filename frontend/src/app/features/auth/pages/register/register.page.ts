@@ -70,6 +70,8 @@ export class RegisterPage {
         nonNullable: true,
         validators: [Validators.requiredTrue],
       }),
+      /** Champ piège invisible : rempli uniquement par les robots. */
+      website: new FormControl<string>('', { nonNullable: true }),
     },
     { validators: passwordsMatch('motDePasse', 'confirmerMotDePasse') },
   );
@@ -168,7 +170,7 @@ export class RegisterPage {
     this.loading.set(true);
     this.errorMessage.set(null);
 
-    const { nomComplet, telephone, email, templeId, motDePasse } = this.form.getRawValue();
+    const { nomComplet, telephone, email, templeId, motDePasse, website } = this.form.getRawValue();
     if (templeId === null) {
       this.loading.set(false);
       return;
@@ -181,6 +183,7 @@ export class RegisterPage {
         email,
         password: motDePasse,
         templeId,
+        website,
       })
       .subscribe({
         next: () => {

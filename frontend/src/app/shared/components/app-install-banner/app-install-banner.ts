@@ -43,10 +43,10 @@ import { AppInstallDialogComponent } from '../app-install-dialog/app-install-dia
       align-items: center;
       gap: 0.75rem;
       padding: 0.875rem 2.25rem 0.875rem 0.875rem;
-      background: linear-gradient(135deg, var(--color-bordeaux) 0%, var(--color-bordeaux-deep) 100%);
-      color: var(--color-papier);
+      background: var(--color-papier);
+      color: var(--color-text);
+      border: 1px dashed var(--color-or);
       border-radius: var(--radius-md);
-      box-shadow: 0 6px 20px var(--color-bordeaux-deep-25);
     }
     .banner__icon {
       display: inline-flex;
@@ -56,8 +56,8 @@ import { AppInstallDialogComponent } from '../app-install-dialog/app-install-dia
       width: 42px;
       height: 42px;
       border-radius: 12px;
-      background: var(--color-or);
-      color: var(--color-bordeaux-deep);
+      background: var(--color-or-soft);
+      color: var(--color-bordeaux);
     }
     .banner__text {
       flex: 1;
@@ -67,21 +67,22 @@ import { AppInstallDialogComponent } from '../app-install-dialog/app-install-dia
       margin: 0;
       font-size: var(--text-sm);
       font-weight: 700;
+      color: var(--color-bordeaux-deep);
     }
     .banner__hint {
       margin: 0.125rem 0 0;
       font-size: var(--text-xs);
       line-height: 1.35;
-      color: var(--color-blanc-85);
+      color: var(--color-text-secondary);
     }
     .banner__cta {
       flex-shrink: 0;
       padding: 0.5rem 0.875rem;
       font-size: var(--text-xs);
       font-weight: 700;
-      color: var(--color-bordeaux-deep);
-      background: var(--color-papier);
-      border: 0;
+      color: var(--color-bordeaux);
+      background: transparent;
+      border: 1px solid var(--color-bordeaux);
       border-radius: var(--radius-pill);
     }
     .banner__cta:hover {
@@ -95,13 +96,13 @@ import { AppInstallDialogComponent } from '../app-install-dialog/app-install-dia
       height: 30px;
       font-size: 1.25rem;
       line-height: 1;
-      color: var(--color-blanc-85);
+      color: var(--color-text-secondary);
       background: none;
       border: 0;
       border-radius: 50%;
     }
     .banner__close:hover {
-      background: var(--color-blanc-12);
+      background: var(--color-creme);
     }
     .banner__cta:focus-visible,
     .banner__close:focus-visible {

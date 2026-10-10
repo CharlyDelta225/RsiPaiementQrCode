@@ -20,14 +20,13 @@
         <app-balance-card [label]="'Mes dons en ' + currentYear" [amount]="yearTotal()" />
       </section>
 
-      <app-install-banner />
-
       <section class="dashboard__actions" aria-label="Actions rapides">
         <div class="dashboard__quick-actions">
           <app-quick-action
             icon="donate"
             label="Faire une contribution"
             route="/member/contribution"
+            [featured]="true"
           />
           <app-quick-action
             icon="history"
@@ -68,6 +67,9 @@
           }
         </div>
       </section>
+
+      <!-- En bas de page : ne concurrence pas « Faire une contribution ». -->
+      <app-install-banner />
     </main>
   </div>
 </div>

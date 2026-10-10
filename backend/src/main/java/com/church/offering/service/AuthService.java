@@ -47,6 +47,9 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
+        if (request.website() != null && !request.website().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Inscription refusée");
+        }
         String email = normalizeEmail(request.email());
         if (userRepository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Un compte existe déjà avec cet email");

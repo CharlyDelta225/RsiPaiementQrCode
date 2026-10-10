@@ -33,6 +33,7 @@ export interface RegisterRequest {
   lastName: string;
   phone: string;
   templeId: number;
+  website?: string;
 }
 
 export interface TempleView {

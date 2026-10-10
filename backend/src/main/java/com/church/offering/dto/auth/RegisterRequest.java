@@ -28,5 +28,8 @@ public record RegisterRequest(
         String phone,
 
         @NotNull(message = "Le temple est requis")
-        Long templeId) {
+        Long templeId,
+
+        /** Champ piège anti-robots : invisible dans le formulaire, doit rester vide. */
+        String website) {
 }

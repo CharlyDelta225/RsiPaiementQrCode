@@ -304,3 +304,11 @@
     overflow-y: auto;
   }
 }
+/* Champ piège : hors écran (pas display:none, que certains robots détectent). */
+.register-trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

@@ -20,6 +20,8 @@ export interface RegisterPayload {
   email: string;
   password?: string;
   templeId?: number;
+  /** Champ piège anti-robots (doit rester vide). */
+  website?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -53,6 +55,7 @@ export class AuthService {
       lastName,
       phone: payload.phone,
       templeId: payload.templeId,
+      website: payload.website ?? '',
     };
     return this.http
       .post<AuthResponse>(`${API_BASE_URL}/auth/register`, body)

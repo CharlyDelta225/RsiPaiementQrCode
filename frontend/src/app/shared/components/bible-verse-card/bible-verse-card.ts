@@ -29,6 +29,7 @@ import { Component, input } from '@angular/core';
       position: absolute;
       inset: 0;
       background: url('/images/church-bg.jpg') center / cover no-repeat;
+      background-image: image-set(url('/images/church-bg.webp') type('image/webp'), url('/images/church-bg.jpg') type('image/jpeg'));
     }
     .verse__overlay {
       position: absolute;
