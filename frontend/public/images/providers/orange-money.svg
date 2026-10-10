@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="34 34 188 188" role="img" aria-label="Orange Money">
+  <rect x="34" y="34" width="188" height="188" fill="#ffffff"/>
+  <g fill="none" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M58 156 L112 102 M70 102 H112 V144" stroke="#000000"/>
+    <path d="M198 100 L144 154 M186 154 H144 V112" stroke="#ff7900"/>
+  </g>
+</svg>

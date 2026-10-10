@@ -31,15 +31,15 @@ export interface PaymentProviderOption {
   id: PublicPaymentProvider;
   label: string;
   hint: string;
-  /** Logo officiel (ex. '/images/providers/wave.svg') ; à défaut, pastille aux couleurs de l'opérateur. */
+  /** Icône officielle de l'application de l'opérateur ; à défaut, pastille générique. */
   logo?: string;
 }
 
 export const PAYMENT_PROVIDERS: readonly PaymentProviderOption[] = [
-  { id: 'ORANGE_MONEY', label: 'Orange Money', hint: 'Orange' },
-  { id: 'MTN_MOBILE_MONEY', label: 'MTN Mobile Money', hint: 'MTN' },
-  { id: 'MOOV_MONEY', label: 'Moov Money', hint: 'Moov' },
-  { id: 'WAVE', label: 'Wave', hint: 'Wave' },
+  { id: 'ORANGE_MONEY', label: 'Orange Money', hint: 'Orange', logo: '/images/providers/orange-money.svg' },
+  { id: 'MTN_MOBILE_MONEY', label: 'MTN MoMo', hint: 'MTN Mobile Money', logo: '/images/providers/mtn-momo.png' },
+  { id: 'MOOV_MONEY', label: 'Moov Money', hint: 'Moov Africa', logo: '/images/providers/moov-money.png' },
+  { id: 'WAVE', label: 'Wave', hint: 'Wave Mobile Money', logo: '/images/providers/wave.png' },
   { id: 'CARD', label: 'Carte bancaire', hint: 'Visa, Mastercard' },
 ];
 

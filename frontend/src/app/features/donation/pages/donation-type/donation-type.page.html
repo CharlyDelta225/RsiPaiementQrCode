@@ -106,7 +106,11 @@
                   [attr.aria-checked]="option.id === selectedProvider()"
                   (click)="selectProvider(option.id)"
                 >
-                  <app-provider-logo [provider]="option.id" [src]="option.logo" />
+                  <app-provider-logo
+                    [provider]="option.id"
+                    [src]="option.logo"
+                    [selected]="option.id === selectedProvider()"
+                  />
                   <span class="don-provider__text">
                     <span class="don-provider__label">{{ option.label }}</span>
                     <span class="don-provider__hint">{{ option.hint }}</span>
