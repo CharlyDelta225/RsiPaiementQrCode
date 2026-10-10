@@ -2,6 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { roleLabel, userInitials } from '../../../../core/models/user.model';
 import { AuthService } from '../../../../core/services/auth.service';
+import { DeviceLockService } from '../../../../core/services/device-lock.service';
 import { InstallPromptService } from '../../../../core/services/install-prompt.service';
 import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon';
 import { LogoutDialogComponent } from '../../../../shared/components/logout-dialog/logout-dialog';
@@ -36,6 +37,13 @@ export class SettingsPage {
     };
   });
   protected readonly canInstall = this.install.canInstallOnDemand;
+  private readonly deviceLock = inject(DeviceLockService);
+  /** Ligne « Code secret » : uniquement dans l'application installée. */
+  protected readonly pinRow = this.deviceLock.isActiveContext()
+    ? this.deviceLock.hasPin()
+      ? { label: 'Changer mon code secret', link: '/member/settings/code' }
+      : { label: 'Créer mon code secret', link: '/code-secret' }
+    : null;
 
   protected async installApp(): Promise<void> {
     await this.install.prompt(true);

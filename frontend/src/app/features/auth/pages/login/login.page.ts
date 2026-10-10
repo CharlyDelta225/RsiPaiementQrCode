@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AppInstallHintService } from '../../../../core/services/app-install-hint.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { DeviceLockService } from '../../../../core/services/device-lock.service';
 import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon';
 import { AuthInputComponent } from '../../../../shared/components/auth-input/auth-input';
 import { ChurchLogoComponent } from '../../../../shared/components/church-logo/church-logo';
@@ -44,6 +45,7 @@ export class LoginPage {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly installHint: AppInstallHintService,
+    private readonly deviceLock: DeviceLockService,
   ) {}
 
   /** Pas encore de réinitialisation en ligne : on oriente vers l'église. */
@@ -66,7 +68,7 @@ export class LoginPage {
     this.authService.login(identifier, password).subscribe({
       next: () => {
         this.installHint.armAfterLogin();
-        this.router.navigate(['/member/dashboard']);
+        this.router.navigate([this.deviceLock.needsSetup() ? '/code-secret' : '/member/dashboard']);
       },
       error: (err: Error) => {
         this.errorMessage.set(err.message);

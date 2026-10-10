@@ -37,6 +37,15 @@
               <app-icon class="settings-row__chevron" name="chevron-right" [size]="20" />
             </a>
           </li>
+          @if (pinRow; as pin) {
+            <li>
+              <a class="settings-row" [routerLink]="pin.link">
+                <span class="settings-row__icon" aria-hidden="true"><app-icon name="lock" [size]="20" /></span>
+                <span class="settings-row__label">{{ pin.label }}</span>
+                <app-icon class="settings-row__chevron" name="chevron-right" [size]="20" />
+              </a>
+            </li>
+          }
           <li>
             <div class="settings-row settings-row--static">
               <span class="settings-row__icon" aria-hidden="true"><app-icon name="info" [size]="20" /></span>

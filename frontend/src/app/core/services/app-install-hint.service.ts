@@ -1,5 +1,6 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
+import { isStandaloneApp } from '../utils/display-mode';
 
 /** Contexte de l'utilisateur, qui détermine le contenu du message d'installation. */
 export type InstallContext = 'desktop' | 'ios' | 'mobile';
@@ -69,12 +70,7 @@ export class AppInstallHintService {
 
   /** L'application tourne déjà en mode installé (écran d'accueil). */
   private isStandalone(): boolean {
-    const view = this.view;
-    if (!view) {
-      return true;
-    }
-    const iosStandalone = (view.navigator as Navigator & { standalone?: boolean }).standalone === true;
-    return iosStandalone || view.matchMedia('(display-mode: standalone)').matches;
+    return this.view === null || isStandaloneApp();
   }
 
   // Stockage parfois indisponible (navigation privée, stockage bloqué) : on ignore l'erreur.

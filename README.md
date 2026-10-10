@@ -15,6 +15,7 @@ PWA de paiement d'offrandes pour l'église (dîmes, offrandes du culte, prémice
   - **PWA** : `@angular/service-worker`, manifest + icônes, `ngsw-config.json`
   - Responsive : mobile (<768px, encadré 430px + bottom-nav), tablette/desktop (≥768px, sidebar + grille plein écran), auth en split image/formulaire
   - Pages : welcome (hero), login/register, don public `/don`, espace membre (tableau de bord, contribution, historique + détail du reçu, profil)
+  - **Code secret à 4 chiffres** (app installée sur l'écran d'accueil uniquement) : créé après la 1re connexion, demandé à chaque ouverture et après 5 min en arrière-plan ; vérifié par le serveur (clé d'appareil + code haché), appareil révoqué après 5 codes faux. En dev, simuler l'app installée : `localStorage.setItem('rsi_force_standalone','1')`
 
 ## Démarrage
 

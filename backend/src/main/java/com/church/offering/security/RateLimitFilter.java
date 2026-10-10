@@ -85,7 +85,8 @@ public class RateLimitFilter extends OncePerRequestFilter {
     }
 
     private static String bucket(String uri) {
-        if (uri.equals("/api/auth/login")) {
+        // Code secret : même quota que la connexion (5 essais/appareil côté serveur en plus).
+        if (uri.equals("/api/auth/login") || uri.equals("/api/auth/pin-login")) {
             return "login";
         }
         if (uri.equals("/api/auth/register")) {

@@ -11,6 +11,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import { AppInstallHintService } from '../../../../core/services/app-install-hint.service';
+import { DeviceLockService } from '../../../../core/services/device-lock.service';
 import { Temple } from '../../../../core/models/temple.model';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TempleService } from '../../../../core/services/temple.service';
@@ -38,6 +39,7 @@ export class RegisterPage {
   private readonly templeService = inject(TempleService);
   private readonly router = inject(Router);
   private readonly installHint = inject(AppInstallHintService);
+  private readonly deviceLock = inject(DeviceLockService);
 
   protected readonly form = new FormGroup(
     {
@@ -183,7 +185,7 @@ export class RegisterPage {
       .subscribe({
         next: () => {
           this.installHint.armAfterLogin();
-          this.router.navigate(['/member/dashboard']);
+          this.router.navigate([this.deviceLock.needsSetup() ? '/code-secret' : '/member/dashboard']);
         },
         error: (err: Error) => {
           this.errorMessage.set(err.message);

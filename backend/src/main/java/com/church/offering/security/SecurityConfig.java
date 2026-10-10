@@ -47,7 +47,8 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/register", "/api/auth/login",
+                                "/api/auth/pin-login", "/api/auth/device/revoke").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/temples/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/qr/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public/offering-types").permitAll()

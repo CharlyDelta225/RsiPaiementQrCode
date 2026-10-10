@@ -1,0 +1,72 @@
+// Écrans plein écran du code secret (déverrouillage, création).
+
+.lock {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding:
+    calc(env(safe-area-inset-top) + 2.5rem)
+    1.5rem
+    calc(env(safe-area-inset-bottom) + 1.5rem);
+  color: var(--color-papier);
+  background:
+    radial-gradient(circle at 50% 0%, var(--color-bordeaux-light) 0%, transparent 60%),
+    var(--color-bordeaux-deep);
+  text-align: center;
+}
+
+.lock__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lock__title {
+  margin: 0.75rem 0 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+.lock__subtitle {
+  margin: 0;
+  max-width: 18rem;
+  font-size: var(--text-sm);
+  color: var(--color-blanc-85);
+}
+
+.lock__message {
+  min-height: 2.5rem;
+  margin: -0.75rem 0 0;
+  max-width: 18rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-or-clair);
+}
+
+.lock__footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lock__link {
+  padding: 0.5rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-papier);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lock__link:focus-visible {
+  outline: 3px solid var(--color-or-60);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

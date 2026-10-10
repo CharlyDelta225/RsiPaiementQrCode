@@ -122,6 +122,11 @@ export class AuthService {
     return user ? user.roles.some((role) => roles.includes(role)) : false;
   }
 
+  /** Session obtenue autrement que par mot de passe (ex. code secret de l'app installée). */
+  adoptSession(response: AuthResponse): User {
+    return this.openSession(response);
+  }
+
   private openSession(response: AuthResponse): User {
     const user = toUser(response.user);
     this.storage.save(response.token, user);

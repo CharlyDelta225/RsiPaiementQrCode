@@ -27,6 +27,15 @@ export const memberRoutes: Routes = [
       },
     ],
   },
+  // Changement du code secret (app installée), plein écran.
+  {
+    path: 'settings/code',
+    title: 'Code secret',
+    canActivate: [authGuard],
+    data: { pinMode: 'change' },
+    loadComponent: () =>
+      import('../lock/pages/pin-setup/pin-setup.page').then((m) => m.PinSetupPage),
+  },
   {
     path: '',
     component: MemberLayoutComponent,

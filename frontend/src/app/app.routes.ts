@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { authGuard, unlockFirstGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   {
     path: 'welcome',
     title: 'Bienvenue',
+    canActivate: [unlockFirstGuard],
     loadComponent: () =>
       import('./features/auth/pages/welcome/welcome.page').then((m) => m.WelcomePage),
   },
@@ -53,6 +55,19 @@ export const routes: Routes = [
     path: 'member',
     loadChildren: () =>
       import('./features/member/member.routes').then((m) => m.memberRoutes),
+  },
+  {
+    path: 'verrouillage',
+    title: 'Code secret',
+    loadComponent: () =>
+      import('./features/lock/pages/unlock/unlock.page').then((m) => m.UnlockPage),
+  },
+  {
+    path: 'code-secret',
+    title: 'Créer votre code',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/lock/pages/pin-setup/pin-setup.page').then((m) => m.PinSetupPage),
   },
   {
     path: 'confidentialite',

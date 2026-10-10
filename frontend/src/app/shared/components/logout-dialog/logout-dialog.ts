@@ -1,6 +1,7 @@
 import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { DeviceLockService } from '../../../core/services/device-lock.service';
 import { AppIconComponent } from '../app-icon/app-icon';
 
 /**
@@ -127,6 +128,7 @@ import { AppIconComponent } from '../app-icon/app-icon';
 })
 export class LogoutDialogComponent {
   private readonly authService = inject(AuthService);
+  private readonly deviceLock = inject(DeviceLockService);
   private readonly router = inject(Router);
   private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
 
@@ -140,6 +142,7 @@ export class LogoutDialogComponent {
 
   protected confirm(): void {
     this.close();
+    this.deviceLock.forget();
     this.authService.logout();
     this.router.navigate(['/welcome']);
   }
