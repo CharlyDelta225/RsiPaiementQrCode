@@ -11,8 +11,6 @@
       "resources": {
         "files": [
           "/manifest.webmanifest",
-          "/favicon.ico",
-          "/favicon.svg",
           "/*.css",
           "/*.js"
         ]
