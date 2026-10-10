@@ -32,6 +32,7 @@ mvn spring-boot:run
 - JWT : clé dev par défaut surchargée par la variable d'environnement `JWT_SECRET` ; expiration 2h
 - CORS : `CORS_ALLOWED_ORIGINS` (défaut http://localhost:4200)
 - Paiement simulé : `PAYMENT_SIMULATION_ENABLED` (défaut `true` en dev). **À mettre à `false` en production** tant que l'agrégateur n'est pas branché : sinon n'importe qui pourrait marquer un don comme payé
+- Anti-spam : POST limités par IP et par minute sur `/api/auth/login` (20), `/api/auth/register` (10) et `/api/public/**` (60), réglables dans `app.rate-limit` (`RATE_LIMIT_ENABLED`). Derrière un reverse proxy, activer `server.forward-headers-strategy=native`
 - Saisie manuelle d'une contribution (`POST /api/contributions`, ex. espèces du culte) : réservée à l'Admin et au Trésorier
 - QR codes : `QR_DONATION_URL` (QR du don affiché à l'église, défaut http://localhost:4200/don) et `QR_APP_URL` (QR « installer sur mobile » proposé après connexion sur ordinateur, défaut http://localhost:4200/login) — à régler sur l'URL publique HTTPS en production
 
@@ -46,6 +47,12 @@ npm start
 - L'app appelle l'API en relatif (`/api`) : `ng serve` relaie vers http://localhost:8080 (`proxy.conf.json`). En production, servir le frontend et l'API sur la même origine (reverse proxy)
 - Tester sur un téléphone du même wifi : `npm run start:lan`, puis ouvrir `http://<IP-du-PC>:4200` sur le téléphone (l'installation PWA exige toutefois HTTPS)
 - Build prod (génère les fichiers service worker) : `npm run build`
+
+## Avant la mise en ligne
+
+- Remplacer `https://example.org` par le domaine public dans `frontend/src/index.html` (balises Open Graph), `frontend/public/robots.txt` et `frontend/public/sitemap.xml`
+- Compléter les éléments entre crochets des pages `/confidentialite` et `/conditions` et les faire valider par l'église
+- `PAYMENT_SIMULATION_ENABLED=false`, `JWT_SECRET`, `QR_DONATION_URL`, `QR_APP_URL` ; HTTPS forcé (redirection 80→443 + HSTS) au niveau du serveur frontal
 
 ## Arborescence
 

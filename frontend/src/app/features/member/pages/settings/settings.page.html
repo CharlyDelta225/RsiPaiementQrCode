@@ -82,6 +82,26 @@
         </section>
       }
 
+      <section class="settings-group" aria-labelledby="settings-about">
+        <h2 class="settings-group__title" id="settings-about">À propos</h2>
+        <ul class="settings-list">
+          <li>
+            <a class="settings-row" routerLink="/confidentialite">
+              <span class="settings-row__icon" aria-hidden="true"><app-icon name="lock" [size]="20" /></span>
+              <span class="settings-row__label">Politique de confidentialité</span>
+              <app-icon class="settings-row__chevron" name="chevron-right" [size]="20" />
+            </a>
+          </li>
+          <li>
+            <a class="settings-row" routerLink="/conditions">
+              <span class="settings-row__icon" aria-hidden="true"><app-icon name="info" [size]="20" /></span>
+              <span class="settings-row__label">Conditions d’utilisation</span>
+              <app-icon class="settings-row__chevron" name="chevron-right" [size]="20" />
+            </a>
+          </li>
+        </ul>
+      </section>
+
       <ul class="settings-list">
         <li>
           <button

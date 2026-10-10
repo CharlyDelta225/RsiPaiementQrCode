@@ -1,0 +1,97 @@
+<div class="legal-page">
+  <main class="legal-page__inner">
+    <button type="button" class="legal-page__back" (click)="back()">
+      <app-icon name="arrow-back" [size]="18" />
+      <span>Retour</span>
+    </button>
+
+    <article class="legal-page__card">
+      <h1>Politique de confidentialité</h1>
+      <p class="legal-page__updated">Dernière mise à jour : octobre 2026</p>
+
+      <p class="legal-page__todo">
+        Modèle à faire valider par l’église : complétez les éléments entre crochets
+        (responsable, contact, durées) et vérifiez la loi applicable dans votre pays.
+      </p>
+
+      <h2>1. Qui est responsable de vos données ?</h2>
+      <p>
+        Le responsable du traitement est [nom officiel de l’église], [adresse du siège],
+        joignable à [adresse email de contact].
+      </p>
+
+      <h2>2. Quelles données sont collectées ?</h2>
+      <ul>
+        <li>
+          <strong>Compte membre</strong> : prénom, nom, email, téléphone, temple de
+          rattachement. Votre mot de passe est stocké chiffré (BCrypt) : personne, y compris
+          l’église, ne peut le lire.
+        </li>
+        <li>
+          <strong>Contributions</strong> : type d’offrande, montant, date, moyen de paiement
+          choisi, référence et numéro de reçu.
+        </li>
+        <li>
+          <strong>Don sans compte</strong> (QR code) : aucune donnée nominative n’est
+          demandée ; seuls le type, le montant et le moyen de paiement sont enregistrés.
+        </li>
+        <li>
+          <strong>Paiement</strong> : il est traité par notre prestataire de paiement.
+          L’application ne stocke ni numéro de carte ni code secret Mobile Money.
+        </li>
+      </ul>
+
+      <h2>3. Pourquoi ?</h2>
+      <ul>
+        <li>Enregistrer vos dons et vous délivrer un reçu.</li>
+        <li>Vous permettre de consulter votre historique et gérer votre compte.</li>
+        <li>Permettre à l’église de tenir sa comptabilité et le suivi par temple.</li>
+      </ul>
+      <p>
+        Ces traitements reposent sur l’exécution du service que vous demandez et sur les
+        obligations comptables de l’église. Vos données ne sont jamais vendues ni utilisées à
+        des fins publicitaires.
+      </p>
+
+      <h2>4. Qui y a accès ?</h2>
+      <p>
+        Uniquement les personnes habilitées de l’église, selon leur rôle (trésorier, pasteur,
+        administrateur), ainsi que nos prestataires techniques strictement nécessaires
+        (hébergement, paiement), tenus à la confidentialité.
+      </p>
+
+      <h2>5. Combien de temps ?</h2>
+      <ul>
+        <li>Compte : tant qu’il est actif, puis supprimé [délai, ex. 12 mois] après sa fermeture.</li>
+        <li>
+          Contributions et reçus : [durée légale de conservation des pièces comptables dans
+          votre pays].
+        </li>
+      </ul>
+
+      <h2>6. Stockage sur votre appareil</h2>
+      <p>
+        L’application n’utilise <strong>aucun cookie publicitaire ni de mesure
+        d’audience</strong>. Elle enregistre seulement sur votre appareil ce qui est
+        nécessaire à son fonctionnement : votre session de connexion et vos préférences
+        (montant masqué, invitation à installer l’application). Les polices d’écriture sont
+        chargées depuis Google Fonts.
+      </p>
+
+      <h2>7. Vos droits</h2>
+      <p>
+        Vous pouvez accéder à vos données, les corriger (depuis <em>Réglages</em>), demander
+        leur suppression ou vous opposer à leur traitement en écrivant à [adresse email de
+        contact]. Vous pouvez aussi saisir l’autorité de protection des données de votre pays
+        [ex. ARTCI en Côte d’Ivoire, CNIL en France].
+      </p>
+
+      <h2>8. Sécurité</h2>
+      <p>
+        Les échanges sont chiffrés (HTTPS) et l’accès aux données est limité par rôle.
+      </p>
+    </article>
+
+    <app-legal-links />
+  </main>
+</div>

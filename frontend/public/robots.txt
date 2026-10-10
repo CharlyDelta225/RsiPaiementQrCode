@@ -1,0 +1,7 @@
+# Au déploiement : remplacer https://example.org par le domaine public.
+User-agent: *
+Allow: /
+Disallow: /member/
+Disallow: /api/
+
+Sitemap: https://example.org/sitemap.xml

@@ -95,9 +95,28 @@
 }
 
 .login-forgot {
+  padding: 0;
+  font: inherit;
   color: var(--color-primary);
   font-weight: 600;
-  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.login-forgot:focus-visible {
+  outline: 2px solid var(--color-or-60);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.login-hint {
+  padding: 0.75rem 1rem;
+  font-size: var(--text-sm);
+  color: var(--color-bordeaux-deep);
+  background: var(--color-or-soft);
+  border: 1px solid var(--color-or-35);
+  border-radius: var(--radius-sm);
 }
 
 .login-error {

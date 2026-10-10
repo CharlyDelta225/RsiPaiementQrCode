@@ -24,17 +24,6 @@ import { AppIconComponent } from '../app-icon/app-icon';
       transition: background 0.2s;
       position: relative;
     }
-    .notif::after {
-      content: '';
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--color-alerte);
-      border: 2px solid var(--color-papier);
-    }
     .notif:hover {
       background: var(--color-blanc-30);
     }

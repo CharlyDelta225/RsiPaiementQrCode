@@ -18,7 +18,7 @@
 }
 
 .receipt__badge--PAID { background: var(--color-success-soft); color: var(--color-success); }
-.receipt__badge--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte); }
+.receipt__badge--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte-texte); }
 .receipt__badge--FAILED { background: var(--color-red-soft); color: var(--color-red); }
 .receipt__badge--CANCELLED { background: var(--color-primary-soft); color: var(--color-text-secondary); }
 

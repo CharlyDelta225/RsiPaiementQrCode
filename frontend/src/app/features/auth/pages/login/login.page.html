@@ -51,8 +51,23 @@
           <input type="checkbox" formControlName="remember" />
           <span>Se souvenir de moi</span>
         </label>
-        <a class="login-forgot" href="#" (click)="onForgotClick($event)">Mot de passe oublié ?</a>
+        <button
+          type="button"
+          class="login-forgot"
+          [attr.aria-expanded]="forgotHintVisible()"
+          aria-controls="login-forgot-hint"
+          (click)="onForgotClick($event)"
+        >
+          Mot de passe oublié ?
+        </button>
       </div>
+
+      @if (forgotHintVisible()) {
+        <p class="login-hint" id="login-forgot-hint" role="status">
+          Pour réinitialiser votre mot de passe, contactez le secrétariat de votre église :
+          un responsable pourra vous aider.
+        </p>
+      }
 
       @if (errorMessage()) {
         <div class="login-error" role="alert">

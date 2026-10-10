@@ -114,7 +114,7 @@ import { OfferingType } from '../../../../core/models/offering-type.model';
       margin-left: 0.25rem;
       font-style: normal;
       font-weight: 600;
-      color: var(--color-or);
+      color: var(--color-or-texte);
     }
   `,
 })

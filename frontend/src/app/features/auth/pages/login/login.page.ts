@@ -46,9 +46,12 @@ export class LoginPage {
     private readonly installHint: AppInstallHintService,
   ) {}
 
+  /** Pas encore de réinitialisation en ligne : on oriente vers l'église. */
+  protected readonly forgotHintVisible = signal(false);
+
   protected onForgotClick(event: Event): void {
     event.preventDefault();
-    console.log('forgot password');
+    this.forgotHintVisible.set(true);
   }
 
   protected onSubmit(): void {

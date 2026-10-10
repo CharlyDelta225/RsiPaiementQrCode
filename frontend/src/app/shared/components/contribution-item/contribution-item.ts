@@ -44,7 +44,7 @@ import { formatFcfa } from '../../../core/utils/format';
       flex-shrink: 0;
     }
     .item__icon--PAID { background: var(--color-success-soft); color: var(--color-success); }
-    .item__icon--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte); }
+    .item__icon--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte-texte); }
     .item__icon--FAILED { background: var(--color-red-soft); color: var(--color-red); }
     .item__icon--CANCELLED { background: var(--color-primary-soft); color: var(--color-text-secondary); }
     .item__body {
@@ -77,7 +77,7 @@ import { formatFcfa } from '../../../core/utils/format';
       white-space: nowrap;
     }
     .item__badge--PAID { background: var(--color-success-soft); color: var(--color-success); }
-    .item__badge--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte); }
+    .item__badge--PENDING { background: var(--color-alerte-soft); color: var(--color-alerte-texte); }
     .item__badge--FAILED { background: var(--color-red-soft); color: var(--color-red); }
     .item__badge--CANCELLED { background: var(--color-primary-soft); color: var(--color-text-secondary); }
   `,

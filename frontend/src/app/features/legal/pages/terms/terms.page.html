@@ -1,0 +1,73 @@
+<div class="legal-page">
+  <main class="legal-page__inner">
+    <button type="button" class="legal-page__back" (click)="back()">
+      <app-icon name="arrow-back" [size]="18" />
+      <span>Retour</span>
+    </button>
+
+    <article class="legal-page__card">
+      <h1>Conditions d’utilisation</h1>
+      <p class="legal-page__updated">Dernière mise à jour : octobre 2026</p>
+
+      <p class="legal-page__todo">
+        Modèle à faire valider par l’église : complétez les éléments entre crochets et
+        adaptez la politique de remboursement à vos règles.
+      </p>
+
+      <h2>1. Objet</h2>
+      <p>
+        « Mon Église » permet de verser des offrandes, dîmes, prémices et dons à
+        [nom officiel de l’église], avec ou sans compte, et aux membres de suivre leurs
+        contributions.
+      </p>
+
+      <h2>2. Compte membre</h2>
+      <p>
+        Vous vous engagez à fournir des informations exactes et à garder votre mot de passe
+        confidentiel. Vous êtes responsable des actions effectuées depuis votre compte.
+        Signalez toute utilisation suspecte à [adresse email de contact].
+      </p>
+
+      <h2>3. Dons et paiements</h2>
+      <ul>
+        <li>Les dons sont volontaires et versés en [devise, ex. FCFA].</li>
+        <li>
+          Le paiement est réalisé par un prestataire agréé (Mobile Money, carte bancaire) ; ses
+          propres conditions s’appliquent à la transaction.
+        </li>
+        <li>Un reçu est émis pour chaque don confirmé et reste consultable dans l’historique.</li>
+        <li>
+          Un don est en principe définitif. En cas d’erreur (montant, double paiement),
+          contactez [adresse email de contact] sous [délai, ex. 7 jours] pour examen.
+        </li>
+      </ul>
+
+      <h2>4. Bon usage</h2>
+      <p>
+        Il est interdit d’utiliser l’application de manière frauduleuse, de tenter d’accéder
+        aux données d’autrui ou de perturber le service. L’église peut suspendre un compte en
+        cas d’abus.
+      </p>
+
+      <h2>5. Disponibilité</h2>
+      <p>
+        Nous faisons notre possible pour que le service soit disponible en continu, sans
+        pouvoir le garantir (maintenance, panne du réseau ou du prestataire de paiement).
+      </p>
+
+      <h2>6. Données personnelles</h2>
+      <p>
+        Leur traitement est décrit dans la
+        <a routerLink="/confidentialite">politique de confidentialité</a>.
+      </p>
+
+      <h2>7. Modification et contact</h2>
+      <p>
+        Ces conditions peuvent évoluer ; la date de mise à jour figure en haut de page. Pour
+        toute question : [adresse email de contact].
+      </p>
+    </article>
+
+    <app-legal-links />
+  </main>
+</div>

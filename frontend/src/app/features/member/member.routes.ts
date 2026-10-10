@@ -11,6 +11,7 @@ export const memberRoutes: Routes = [
     children: [
       {
         path: '',
+        title: 'Faire une contribution',
         loadComponent: () =>
           import('../donation/pages/donation-type/donation-type.page').then(
             (m) => m.DonationTypePage,
@@ -18,6 +19,7 @@ export const memberRoutes: Routes = [
       },
       {
         path: 'confirmation',
+        title: 'Merci pour votre contribution',
         loadComponent: () =>
           import('../donation/pages/donation-confirmation/donation-confirmation.page').then(
             (m) => m.DonationConfirmationPage,
@@ -33,16 +35,19 @@ export const memberRoutes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
+        title: 'Accueil',
         loadComponent: () =>
           import('./pages/dashboard/dashboard.page').then((m) => m.DashboardPage),
       },
       {
         path: 'contributions',
+        title: 'Mon historique',
         loadComponent: () =>
           import('./pages/history/history.page').then((m) => m.HistoryPage),
       },
       {
         path: 'contributions/:id',
+        title: 'Détail du reçu',
         loadComponent: () =>
           import('./pages/contribution-detail/contribution-detail.page').then(
             (m) => m.ContributionDetailPage,
@@ -50,16 +55,19 @@ export const memberRoutes: Routes = [
       },
       {
         path: 'settings',
+        title: 'Réglages',
         loadComponent: () =>
           import('./pages/settings/settings.page').then((m) => m.SettingsPage),
       },
       {
         path: 'settings/profile',
+        title: 'Informations personnelles',
         loadComponent: () =>
           import('./pages/profile/profile.page').then((m) => m.ProfilePage),
       },
       {
         path: 'settings/password',
+        title: 'Mot de passe',
         loadComponent: () =>
           import('./pages/password/password.page').then((m) => m.PasswordPage),
       },
