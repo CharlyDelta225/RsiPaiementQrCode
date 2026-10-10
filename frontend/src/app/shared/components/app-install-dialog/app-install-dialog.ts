@@ -44,10 +44,21 @@ import { AppIconComponent } from '../app-icon/app-icon';
           @case ('ios') {
             <p class="install__text">Donnez en un geste depuis votre écran d’accueil :</p>
             <ol class="install__steps">
-              <li>Touchez le bouton <strong>Partager</strong> de Safari.</li>
-              <li>Choisissez <strong>Sur l’écran d’accueil</strong>.</li>
+              <li>
+                Dans Safari, touchez <strong>•••</strong> (en bas à droite), puis
+                <strong>Partager</strong>. Sur les anciens iPhone : l’icône Partager
+                <span aria-hidden="true">⬆︎</span> directement.
+              </li>
+              <li>
+                Faites défiler et choisissez <strong>Sur l’écran d’accueil</strong>
+                (ou <strong>Ajouter à l’écran d’accueil</strong>).
+              </li>
               <li>Validez avec <strong>Ajouter</strong>.</li>
             </ol>
+            <p class="install__hint">
+              L’option n’apparaît pas ? Ouvrez ce lien dans <strong>Safari</strong>, hors navigation
+              privée.
+            </p>
           }
           @default {
             @if (canPrompt()) {
@@ -150,6 +161,11 @@ import { AppIconComponent } from '../app-icon/app-icon';
     }
     .install__steps strong {
       color: var(--color-bordeaux);
+    }
+    .install__hint {
+      margin: 0;
+      font-size: var(--text-xs);
+      color: var(--color-text-secondary);
     }
     .install__actions {
       display: flex;
