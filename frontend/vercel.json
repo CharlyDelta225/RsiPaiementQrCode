@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist/frontend/browser",
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://REMPLACER-PAR-URL-BACKEND.onrender.com/api/:path*" },
+    { "source": "/api/:path*", "destination": "https://rsi-paiement-api.onrender.com/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
