@@ -13,6 +13,7 @@ import com.church.offering.repository.TempleRepository;
 import com.church.offering.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -31,24 +32,34 @@ public class DataSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final boolean demoUsers;
+    private final String adminEmail;
+    private final String adminPassword;
 
     public DataSeeder(ChurchRepository churchRepository,
                       TempleRepository templeRepository,
                       OfferingTypeRepository offeringTypeRepository,
                       UserRepository userRepository,
                       MemberRepository memberRepository,
-                      PasswordEncoder passwordEncoder) {
+                      PasswordEncoder passwordEncoder,
+                      @Value("${app.seed.demo-users:false}") boolean demoUsers,
+                      @Value("${ADMIN_EMAIL:}") String adminEmail,
+                      @Value("${ADMIN_PASSWORD:}") String adminPassword) {
         this.churchRepository = churchRepository;
         this.templeRepository = templeRepository;
         this.offeringTypeRepository = offeringTypeRepository;
         this.userRepository = userRepository;
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
+        this.demoUsers = demoUsers;
+        this.adminEmail = adminEmail == null ? "" : adminEmail.trim().toLowerCase();
+        this.adminPassword = adminPassword == null ? "" : adminPassword;
     }
 
     @Override
     @Transactional
     public void run(String... args) {
+        bootstrapAdmin();
         if (churchRepository.count() > 0) {
             return;
         }
@@ -79,6 +90,11 @@ public class DataSeeder implements CommandLineRunner {
                 offeringType("DON", "Don", "Don libre", 4,
                         "Que chacun donne selon sa volonté, et non de mauvaise grâce, car Dieu aime celui qui donne avec joie.",
                         "2 Corinthiens 9:7")));
+
+        if (!demoUsers) {
+            log.info("=== Église, temples et types d'offrande initialisés (sans comptes de démo) ===");
+            return;
+        }
 
         User admin = new User();
         admin.setEmail("admin@rsi.local");
@@ -133,6 +149,29 @@ public class DataSeeder implements CommandLineRunner {
         user.setTemple(temple);
         user.setActive(true);
         userRepository.save(user);
+    }
+
+    /**
+     * Production : crée le premier administrateur à partir d'ADMIN_EMAIL / ADMIN_PASSWORD
+     * (une seule fois, si aucun compte n'existe avec cet email).
+     */
+    private void bootstrapAdmin() {
+        if (adminEmail.isBlank() || adminPassword.isBlank() || userRepository.existsByEmail(adminEmail)) {
+            return;
+        }
+        if (adminPassword.length() < 12) {
+            log.warn("ADMIN_PASSWORD trop court (12 caractères minimum) : administrateur non créé.");
+            return;
+        }
+        User admin = new User();
+        admin.setEmail(adminEmail);
+        admin.setPasswordHash(passwordEncoder.encode(adminPassword));
+        admin.setFirstName("Administrateur");
+        admin.setLastName("RSI");
+        admin.setRole(Role.ADMIN);
+        admin.setActive(true);
+        userRepository.save(admin);
+        log.info("Administrateur initial créé : {}", adminEmail);
     }
 
     private Temple saveTemple(Church church, String name, String city, String address) {

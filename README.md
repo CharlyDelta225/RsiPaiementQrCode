@@ -48,6 +48,10 @@ npm start
 - Tester sur un téléphone du même wifi : `npm run start:lan`, puis ouvrir `http://<IP-du-PC>:4200` sur le téléphone (l'installation PWA exige toutefois HTTPS)
 - Build prod (génère les fichiers service worker) : `npm run build`
 
+## Déploiement
+
+Frontend sur **Vercel**, backend Docker sur **Render**, base PostgreSQL sur **Supabase** : guide pas à pas dans [docs/deploiement.md](docs/deploiement.md) (profil Spring `prod`, `backend/Dockerfile`, `frontend/vercel.json`).
+
 ## Avant la mise en ligne
 
 - Remplacer `https://example.org` par le domaine public dans `frontend/src/index.html` (balises Open Graph), `frontend/public/robots.txt` et `frontend/public/sitemap.xml`

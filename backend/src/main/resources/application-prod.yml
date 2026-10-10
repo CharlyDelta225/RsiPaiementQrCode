@@ -1,0 +1,42 @@
+# Profil de production (SPRING_PROFILES_ACTIVE=prod) : PostgreSQL (Supabase), aucun secret par défaut.
+spring:
+  datasource:
+    # Supabase → « Connect » → Session pooler (IPv4), au format JDBC :
+    # jdbc:postgresql://aws-0-<region>.pooler.supabase.com:5432/postgres?sslmode=require
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      # Offre gratuite Supabase : peu de connexions disponibles.
+      maximum-pool-size: ${DB_POOL_SIZE:5}
+  h2:
+    console:
+      enabled: false
+  jpa:
+    hibernate:
+      # V1 : schéma créé/complété automatiquement. Passer à Flyway quand le modèle se stabilise.
+      ddl-auto: update
+
+server:
+  # Derrière Vercel puis l'hébergeur : la vraie IP client est dans X-Forwarded-For
+  # (Vercel l'écrase avec l'IP réelle, non falsifiable) — indispensable pour la limite anti-spam.
+  forward-headers-strategy: native
+  tomcat:
+    remoteip:
+      internal-proxies: ".*"
+
+jwt:
+  # Obligatoire : le démarrage échoue si JWT_SECRET n'est pas défini (≥ 32 caractères).
+  secret: ${JWT_SECRET}
+
+app:
+  seed:
+    demo-users: false
+  payment:
+    simulation-enabled: ${PAYMENT_SIMULATION_ENABLED:false}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS}
+  qr:
+    donation-url: ${QR_DONATION_URL}
+    app-url: ${QR_APP_URL}

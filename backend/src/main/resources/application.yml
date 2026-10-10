@@ -19,13 +19,17 @@ spring:
     show-sql: false
 
 server:
-  port: 8080
+  # PORT est fourni par l'hébergeur (Render, Railway…).
+  port: ${PORT:8080}
 
 jwt:
   secret: ${JWT_SECRET:ChangerMoi-ClefSecreteJWT-HS256-256bits-Minimum-0123456789abcd}
   expiration: 2h
 
 app:
+  seed:
+    # Comptes de démonstration (admin@rsi.local…) : développement uniquement, coupé en prod.
+    demo-users: true
   payment:
     # Paiement simulé (pas de débit réel) : pratique en développement, à couper en production
     # tant que l'agrégateur n'est pas branché (PAYMENT_SIMULATION_ENABLED=false).

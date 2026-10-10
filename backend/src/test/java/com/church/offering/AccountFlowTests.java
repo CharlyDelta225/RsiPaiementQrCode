@@ -121,6 +121,14 @@ class AccountFlowTests {
                 .andExpect(status().isConflict());
     }
 
+    @Test
+    void unknownApiPathReturns404InsteadOf500() throws Exception {
+        String token = login("membre@rsi.local", "Membre@12345");
+        mockMvc.perform(get("/api/my/inexistant").header("Authorization", "Bearer " + token))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404));
+    }
+
     private String registerMember() throws Exception {
         String suffix = uniqueSuffix();
         return register("autre" + suffix + "@rsi.local", suffix);
