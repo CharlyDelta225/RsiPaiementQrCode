@@ -15,6 +15,7 @@ import { formatFcfa } from '../../../../core/utils/format';
 import { AppIconComponent } from '../../../../shared/components/app-icon/app-icon';
 import { PrimaryButtonComponent } from '../../../../shared/components/primary-button/primary-button';
 import { PublicPaymentProvider } from '../../../../core/models/payment-provider.model';
+import { ProviderLogoComponent } from '../../components/provider-logo/provider-logo';
 import { TypeCardComponent } from '../../components/type-card/type-card';
 import {
   DONATION_PATHS,
@@ -30,7 +31,7 @@ type StepLabel = 'Type d’offrande' | 'Montant' | 'Mode de paiement';
 @Component({
   selector: 'app-donation-type',
   standalone: true,
-  imports: [AppIconComponent, PrimaryButtonComponent, TypeCardComponent],
+  imports: [AppIconComponent, PrimaryButtonComponent, ProviderLogoComponent, TypeCardComponent],
   templateUrl: './donation-type.page.html',
   styleUrl: './donation-type.page.scss',
 })

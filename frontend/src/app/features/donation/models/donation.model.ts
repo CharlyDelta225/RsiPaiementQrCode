@@ -31,6 +31,8 @@ export interface PaymentProviderOption {
   id: PublicPaymentProvider;
   label: string;
   hint: string;
+  /** Logo officiel (ex. '/images/providers/wave.svg') ; à défaut, pastille aux couleurs de l'opérateur. */
+  logo?: string;
 }
 
 export const PAYMENT_PROVIDERS: readonly PaymentProviderOption[] = [
