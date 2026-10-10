@@ -1,5 +1,7 @@
 # Déploiement — première version
 
+Version en ligne : https://rsi-paiement.vercel.app (API : https://rsi-paiement-api.onrender.com).
+
 Architecture :
 
 ```
@@ -78,8 +80,9 @@ Le démarrage échoue volontairement si `JWT_SECRET` ou `DB_URL` manque. Les com
 
 ## 4. Finitions
 
-- Remplacer `https://example.org` par l'URL Vercel (ou le domaine définitif) dans
-  `frontend/src/index.html`, `frontend/public/robots.txt` et `frontend/public/sitemap.xml`.
+- En cas de domaine personnalisé : remplacer `https://rsi-paiement.vercel.app` dans
+  `frontend/src/index.html`, `frontend/public/robots.txt` et `frontend/public/sitemap.xml`,
+  ainsi que dans les variables Render (CORS, QR).
 - Compléter les pages `/confidentialite` et `/conditions` (éléments entre crochets).
 - Se connecter avec `ADMIN_EMAIL`, puis changer le mot de passe dans **Réglages → Mot de passe**.
 - Imprimer le QR du don : `https://<projet>.vercel.app/don` (il pointe désormais vers la vraie URL).

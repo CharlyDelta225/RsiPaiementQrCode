@@ -50,11 +50,10 @@ npm start
 
 ## Déploiement
 
-Frontend sur **Vercel**, backend Docker sur **Render**, base PostgreSQL sur **Supabase** : guide pas à pas dans [docs/deploiement.md](docs/deploiement.md) (profil Spring `prod`, `backend/Dockerfile`, `frontend/vercel.json`).
+En ligne : **https://rsi-paiement.vercel.app**. Frontend sur **Vercel**, backend Docker sur **Render**, base PostgreSQL sur **Supabase** : guide pas à pas dans [docs/deploiement.md](docs/deploiement.md) (profil Spring `prod`, `backend/Dockerfile`, `frontend/vercel.json`).
 
 ## Avant la mise en ligne
 
-- Remplacer `https://example.org` par le domaine public dans `frontend/src/index.html` (balises Open Graph), `frontend/public/robots.txt` et `frontend/public/sitemap.xml`
 - Compléter les éléments entre crochets des pages `/confidentialite` et `/conditions` et les faire valider par l'église
 - `PAYMENT_SIMULATION_ENABLED=false`, `JWT_SECRET`, `QR_DONATION_URL`, `QR_APP_URL` ; HTTPS forcé (redirection 80→443 + HSTS) au niveau du serveur frontal
 

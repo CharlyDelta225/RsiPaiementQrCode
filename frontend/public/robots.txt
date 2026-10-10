@@ -1,7 +1,7 @@
-# Au déploiement : remplacer https://example.org par le domaine public.
+# Au déploiement : remplacer https://rsi-paiement.vercel.app (si changement de domaine) par le domaine public.
 User-agent: *
 Allow: /
 Disallow: /member/
 Disallow: /api/
 
-Sitemap: https://example.org/sitemap.xml
+Sitemap: https://rsi-paiement.vercel.app/sitemap.xml
