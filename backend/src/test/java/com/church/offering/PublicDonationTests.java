@@ -140,12 +140,12 @@ class PublicDonationTests {
 
     @Test
     void contributionMembreNePeutPasEtreSimuleeParLeDonPublic() throws Exception {
-        String memberToken = login("membre@rsi.local", "Membre@12345");
+        String treasurerToken = login("tresorier@rsi.local", "Tresorier@12345");
         MvcResult result = mockMvc.perform(post("/api/contributions")
-                        .header("Authorization", "Bearer " + memberToken)
+                        .header("Authorization", "Bearer " + treasurerToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                {"templeId":1,"offeringTypeId":2,"amount":5000,"paymentMethod":"CASH"}
+                                {"templeId":1,"offeringTypeId":2,"amount":5000,"paymentMethod":"CASH","memberId":1}
                                 """))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.memberId").value(1))

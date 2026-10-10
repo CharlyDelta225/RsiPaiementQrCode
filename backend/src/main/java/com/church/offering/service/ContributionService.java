@@ -92,8 +92,7 @@ public class ContributionService {
         return ContributionView.from(contribution);
     }
 
-    @Transactional(readOnly = true)
-    public Long memberIdByUser(com.church.offering.security.UserPrincipal principal) {
+    private Long memberIdByUser(com.church.offering.security.UserPrincipal principal) {
         if (principal == null || principal.id() == null) {
             return null;
         }

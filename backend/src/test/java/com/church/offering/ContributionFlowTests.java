@@ -22,22 +22,25 @@ class ContributionFlowTests {
     private MockMvc mockMvc;
 
     private String adminToken;
+    private String treasurerToken;
     private String memberToken;
 
     @BeforeEach
     void setup() throws Exception {
         adminToken = login("admin@rsi.local", "Admin@12345");
+        treasurerToken = login("tresorier@rsi.local", "Tresorier@12345");
         memberToken = login("membre@rsi.local", "Membre@12345");
     }
 
     @Test
-    void anonymousVisitorCanCreateContribution() throws Exception {
+    void treasurerRecordsManualContribution() throws Exception {
         String body = """
                 {"templeId":1,"offeringTypeId":1,"amount":10000,
-                 "paymentMethod":"MOBILE_MONEY","donorName":"Visiteur Anonyme","donorPhone":"+2250700000111",
+                 "paymentMethod":"CASH","donorName":"Visiteur Anonyme","donorPhone":"+2250700000111",
                  "note":"Offrande du dimanche"}
                 """;
         mockMvc.perform(post("/api/contributions")
+                        .header("Authorization", "Bearer " + treasurerToken)
                         .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.reference").value(org.hamcrest.Matchers.startsWith("CONT-")))
@@ -49,19 +52,20 @@ class ContributionFlowTests {
     }
 
     @Test
-    void connectedMemberCreatesContributionLinkedToTheirMember() throws Exception {
-        String body = """
-                {"templeId":1,"offeringTypeId":2,"amount":5000,
-                 "paymentMethod":"CASH","donorName":null,"donorPhone":null}
-                """;
+    void anonymousCannotRecordManualContribution() throws Exception {
+        mockMvc.perform(post("/api/contributions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"templeId\":1,\"offeringTypeId\":1,\"amount\":10000}"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void memberCannotRecordManualContribution() throws Exception {
         mockMvc.perform(post("/api/contributions")
                         .header("Authorization", "Bearer " + memberToken)
-                        .contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.status").value("PENDING"))
-                .andExpect(jsonPath("$.memberId").value(1))
-                .andExpect(jsonPath("$.memberFullName").exists())
-                .andExpect(jsonPath("$.paymentMethod").value("CASH"));
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"templeId\":1,\"offeringTypeId\":2,\"amount\":5000,\"paymentMethod\":\"CASH\"}"))
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -70,6 +74,7 @@ class ContributionFlowTests {
                 {"templeId":2,"offeringTypeId":3,"amount":2500,"paymentMethod":"BANK_TRANSFER"}
                 """;
         mockMvc.perform(post("/api/contributions")
+                        .header("Authorization", "Bearer " + adminToken)
                         .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated());
 
@@ -95,6 +100,7 @@ class ContributionFlowTests {
                  "paymentMethod":"MOBILE_MONEY","donorName":"Donateur Fidèle"}
                 """;
         MvcResult created = mockMvc.perform(post("/api/contributions")
+                        .header("Authorization", "Bearer " + adminToken)
                         .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated())
                 .andReturn();
@@ -110,10 +116,9 @@ class ContributionFlowTests {
     @Test
     void memberHistoryContainsOnlyOwnContributions() throws Exception {
         String body = """
-                {"templeId":1,"offeringTypeId":4,"amount":800,"paymentMethod":"MOBILE_MONEY",
-                 "donorName":"Moi meme"}
+                {"offeringTypeId":4,"amount":800,"paymentProvider":"WAVE"}
                 """;
-        mockMvc.perform(post("/api/contributions")
+        mockMvc.perform(post("/api/my/donations")
                         .header("Authorization", "Bearer " + memberToken)
                         .contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isCreated());

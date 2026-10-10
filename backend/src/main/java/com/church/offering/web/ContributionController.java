@@ -32,11 +32,11 @@ public class ContributionController {
         this.contributionService = contributionService;
     }
 
+    /** Saisie manuelle par l'équipe (ex. offrandes en espèces du culte). */
     @PostMapping("/contributions")
-    public ResponseEntity<ContributionView> create(@Valid @RequestBody ContributionRequest request,
-                                                   @AuthenticationPrincipal UserPrincipal principal) {
-        ContributionRequest resolved = resolveMember(request, principal);
-        return ResponseEntity.status(HttpStatus.CREATED).body(contributionService.create(resolved));
+    @PreAuthorize("hasAnyRole('ADMIN', 'TREASURER')")
+    public ResponseEntity<ContributionView> create(@Valid @RequestBody ContributionRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(contributionService.create(request));
     }
 
     @GetMapping("/my/contributions")
@@ -66,18 +66,5 @@ public class ContributionController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TREASURER')")
     public ContributionView cancel(@PathVariable Long id) {
         return contributionService.cancel(id);
-    }
-
-    private ContributionRequest resolveMember(ContributionRequest request, UserPrincipal principal) {
-        if (principal == null || request.memberId() != null) {
-            return request;
-        }
-        Long memberId = contributionService.memberIdByUser(principal);
-        if (memberId == null) {
-            return request;
-        }
-        return new ContributionRequest(
-                request.templeId(), request.offeringTypeId(), request.amount(), request.currencyCode(),
-                request.paymentMethod(), memberId, request.donorName(), request.donorPhone(), request.note());
     }
 }

@@ -5,6 +5,7 @@ backend/target/
 *.war
 *.ear
 backend/*.log
+backend/data/
 
 # ---- Node / Angular ----
 frontend/node_modules/
